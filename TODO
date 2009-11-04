@@ -1,0 +1,94 @@
+[ ] Cover whole EVE API
+    [ ] Alternative access (Gatecamper, eveapiproxy, other proxies, etc.) ?
+        [ ] Gatecamper
+        [ ] Normal rebase
+    [ ] Error testing
+        [ ] Server not responding
+        [ ] Network connection down
+        [ ] 404
+        [ ] 500
+        [ ] Server crashes
+        [X] Normal exceptions
+        [X] Wrong API-Key
+        [X] Wrong Identifier
+        [X] Deleted Character
+		[X] Missing Identifier/Key
+        [ ] Inactive Account
+        [ ] Faulty XML
+        [ ] Proxy-error
+        [ ] Faulty proxy settings in Safari
+        [ ] HTTP-Proxy modifications
+        [ ] Caching
+    
+    [ ] Account API
+        [X] Implementation
+            [X] Characters
+        [ ] Tests
+    [ ] Character API
+        [ ] Implementation
+			[X] Limited
+            	[X] Character Sheet
+            	[X] Training
+            	[X] Skill Queue
+	            [X] Factional Warfare
+	            [X] Medals
+				[X] Standings
+			[ ] Full
+            	[ ] Assets
+            	[ ] Market Orders
+            	[ ] Industry Jobs
+            	[ ] Kills
+            	[ ] Wallet Balance
+            	[ ] Wallet Transactions
+            	[ ] Wallet Journal
+        [ ] Tests
+    [ ] Corporation API
+        [ ] Implementation
+			[X] Limited
+            	[X] Corporation Sheet
+	            [X] Medals
+	            [X] Medals Issued
+			[ ] Full
+	            [ ] Assets
+	            [ ] Market Orders
+	            [ ] Industry Jobs
+	            [ ] Kills
+	            [ ] Factional Warfare
+	            [ ] Wallet Balance
+	            [ ] Wallet Transactions
+	            [ ] Wallet Journal
+	            [ ] Member Security
+	            [ ] Member Tracking
+        [ ] Tests
+    [ ] Factional Warfare
+        [X] Implementation
+            [X] Statistics
+            [X] Top 100
+            [X] Occupancy
+        [ ] Tests
+    [ ] Maps
+        [X] Implementation
+            [X] Conquerable Stations
+            [X] Jumps
+            [X] Kills
+            [X] Sovereignty
+        [ ] Tests
+    [ ] Misc.
+        [X] Implementation
+            [X] Alliances
+            [X] Certificate Tree
+            [X] Errors
+            [X] RefTypes
+            [X] Skill Tree
+            [X] Identifiers to Names
+            [X] Names to Identifiers
+        [ ] Tests
+    [ ] Starbases
+        [ ] Implementation
+            [ ] List
+            [ ] Details
+        [ ] Tests
+    [ ] Server
+        [X] Implementation
+            [X] Status
+        [ ] Tests

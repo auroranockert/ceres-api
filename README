@@ -1,0 +1,6 @@
+The EVE API for Mac OS X 10.5 and later
+
+Requires:
+* MacRuby 0.4 or later
+
+This is not ready, and currently does not wrap the methods that require the full-access api-key.	
