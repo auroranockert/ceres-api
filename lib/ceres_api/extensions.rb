@@ -62,7 +62,7 @@ class NSXMLDocument
 
     if error
       code = error.readAttribute("code").integerValue
-      message = "#{code.to_s} > #{error.stringValue}"
+      message = "EVE API Error (##{code.to_s}): #{error.stringValue}"
 
       case code
       when 100

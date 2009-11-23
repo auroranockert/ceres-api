@@ -34,13 +34,13 @@
 	            [X] Medals
 				[X] Standings
 			[ ] Full
-            	[ ] Assets
-            	[ ] Market Orders
-            	[ ] Industry Jobs
+            	[X] Assets
+            	[X] Market Orders
+            	[X] Industry Jobs
             	[ ] Kills
-            	[ ] Wallet Balance
-            	[ ] Wallet Transactions
-            	[ ] Wallet Journal
+            	[X] Wallet Balance
+            	[X] Wallet Transactions
+            	[X] Wallet Journal
         [ ] Tests
     [ ] Corporation API
         [ ] Implementation
@@ -85,8 +85,8 @@
         [ ] Tests
     [ ] Starbases
         [ ] Implementation
-            [ ] List
-            [ ] Details
+            [X] List
+            [X] Details
         [ ] Tests
     [ ] Server
         [X] Implementation
