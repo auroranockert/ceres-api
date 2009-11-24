@@ -20,9 +20,9 @@
 
 framework 'cocoa'
 
-require 'ceres/ceres_api/exceptions'
-require 'ceres/ceres_api/extensions'
-require 'ceres/ceres_api/urls'
+require 'ceres/api/exceptions'
+require 'ceres/api/extensions'
+require 'ceres/api/urls'
 
 module Ceres
   class API    
@@ -68,13 +68,13 @@ module Ceres
   end
 end
 
-require 'ceres/ceres_api/account'
-require 'ceres/ceres_api/character_full'
-require 'ceres/ceres_api/character_limited'
-require 'ceres/ceres_api/corporation_full'
-require 'ceres/ceres_api/corporation_limited'
-require 'ceres/ceres_api/fw'
-require 'ceres/ceres_api/map'
-require 'ceres/ceres_api/misc'
-require 'ceres/ceres_api/server'
-require 'ceres/ceres_api/starbase'
+require 'ceres/api/account'
+require 'ceres/api/character_full'
+require 'ceres/api/character_limited'
+require 'ceres/api/corporation_full'
+require 'ceres/api/corporation_limited'
+require 'ceres/api/fw'
+require 'ceres/api/map'
+require 'ceres/api/misc'
+require 'ceres/api/server'
+require 'ceres/api/starbase'
