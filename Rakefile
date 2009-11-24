@@ -7,10 +7,7 @@ begin
     gemspec.email = "jens.nockert@gmail.com"
     gemspec.homepage = "http://github.com/jensnockert/ceres-api"
     gemspec.authors = ["Jens Nockert"]
-    gemspec.extensions = ['']
-    gemspec.executables = ['']
     gemspec.has_rdoc = false
-    gemspec.extra_rdoc_files = ['']
   end
 rescue LoadError
   puts "Jeweler not available. Install it with: sudo gem install jeweler"
