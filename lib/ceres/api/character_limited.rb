@@ -39,16 +39,16 @@ module Ceres
         :attributes / :perception => xml.readNode("/eveapi/result/attributes/perception").integerValue,
         :attributes / :willpower => xml.readNode("/eveapi/result/attributes/willpower").integerValue,
         
-        :attributes / :intelligence / :enhancer / :name => node.readNode("/eveapi/result/attributeEnhancers/intelligenceBonus/augmentatorName").stringValue
-        :attributes / :intelligence / :enhancer / :value => node.readNode("/eveapi/result/attributeEnhancers/intelligenceBonus/augmentatorValue").integerValue
-        :attributes / :memory / :enhancer / :name => node.readNode("/eveapi/result/attributeEnhancers/memoryBonus/augmentatorName").stringValue
-        :attributes / :memory / :enhancer / :value => node.readNode("/eveapi/result/attributeEnhancers/memoryBonus/augmentatorValue").integerValue
-        :attributes / :charisma / :enhancer / :name => node.readNode("/eveapi/result/attributeEnhancers/charismaBonus/augmentatorName").stringValue
-        :attributes / :charisma / :enhancer / :value => node.readNode("/eveapi/result/attributeEnhancers/charismaBonus/augmentatorValue").integerValue
-        :attributes / :perception / :enhancer / :name => node.readNode("/eveapi/result/attributeEnhancers/perceptionBonus/augmentatorName").stringValue
-        :attributes / :perception / :enhancer / :value => node.readNode("/eveapi/result/attributeEnhancers/perceptionBonus/augmentatorValue").integerValue
-        :attributes / :willpower / :enhancer / :name => node.readNode("/eveapi/result/attributeEnhancers/willpowerBonus/augmentatorName").stringValue
-        :attributes / :willpower / :enhancer / :value => node.readNode("/eveapi/result/attributeEnhancers/willpowerBonus/augmentatorValue").integerValue
+        :attributes / :intelligence / :enhancer / :name => node.readNode("/eveapi/result/attributeEnhancers/intelligenceBonus/augmentatorName").stringValue,
+        :attributes / :intelligence / :enhancer / :value => node.readNode("/eveapi/result/attributeEnhancers/intelligenceBonus/augmentatorValue").integerValue,
+        :attributes / :memory / :enhancer / :name => node.readNode("/eveapi/result/attributeEnhancers/memoryBonus/augmentatorName").stringValue,
+        :attributes / :memory / :enhancer / :value => node.readNode("/eveapi/result/attributeEnhancers/memoryBonus/augmentatorValue").integerValue,
+        :attributes / :charisma / :enhancer / :name => node.readNode("/eveapi/result/attributeEnhancers/charismaBonus/augmentatorName").stringValue,
+        :attributes / :charisma / :enhancer / :value => node.readNode("/eveapi/result/attributeEnhancers/charismaBonus/augmentatorValue").integerValue,
+        :attributes / :perception / :enhancer / :name => node.readNode("/eveapi/result/attributeEnhancers/perceptionBonus/augmentatorName").stringValue,
+        :attributes / :perception / :enhancer / :value => node.readNode("/eveapi/result/attributeEnhancers/perceptionBonus/augmentatorValue").integerValue,
+        :attributes / :willpower / :enhancer / :name => node.readNode("/eveapi/result/attributeEnhancers/willpowerBonus/augmentatorName").stringValue,
+        :attributes / :willpower / :enhancer / :value => node.readNode("/eveapi/result/attributeEnhancers/willpowerBonus/augmentatorValue").integerValue,
                 
         :skills => xml.readNodes("/eveapi/result/rowset[@name='skills']/row").map do |skill|
           hash = {

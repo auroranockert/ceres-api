@@ -50,18 +50,18 @@ module Ceres
       ].each do |faction_id, faction_symbol|
         faction = xml.readNode("/eveapi/result/rowset[@name='factions']/row[@factionID='#{faction_id}']")
 
-        hash[faction_symbol / :id] = faction.readAttribute("factionID").integerValue,
-        hash[faction_symbol / :name] = faction.readAttribute("factionName").stringValue,
-        hash[faction_symbol / :pilots] = faction.readAttribute("pilots").integerValue,
-        hash[faction_symbol / :systems_controlled] = faction.readAttribute("systemsControlled").integerValue,
+        hash[faction_symbol / :id] = faction.readAttribute("factionID").integerValue
+        hash[faction_symbol / :name] = faction.readAttribute("factionName").stringValue
+        hash[faction_symbol / :pilots] = faction.readAttribute("pilots").integerValue
+        hash[faction_symbol / :systems_controlled] = faction.readAttribute("systemsControlled").integerValue
              
-        hash[faction_symbol / :kills / :yesterday] = faction.readAttribute("killsYesterday").integerValue,
-        hash[faction_symbol / :kills / :last_week] = faction.readAttribute("killsLastWeek").integerValue,
-        hash[faction_symbol / :kills / :total] = faction.readAttribute("killsTotal").integerValue,
+        hash[faction_symbol / :kills / :yesterday] = faction.readAttribute("killsYesterday").integerValue
+        hash[faction_symbol / :kills / :last_week] = faction.readAttribute("killsLastWeek").integerValue
+        hash[faction_symbol / :kills / :total] = faction.readAttribute("killsTotal").integerValue
              
-        hash[faction_symbol / :victory_points / :yesterday] = faction.readAttribute("victoryPointsYesterday").integerValue,
-        hash[faction_symbol / :victory_points / :last_week] = faction.readAttribute("victoryPointsLastWeek").integerValue,
-        hash[faction_symbol / :victory_points / :total] = faction.readAttribute("victoryPointsTotal").integerValue,
+        hash[faction_symbol / :victory_points / :yesterday] = faction.readAttribute("victoryPointsYesterday").integerValue
+        hash[faction_symbol / :victory_points / :last_week] = faction.readAttribute("victoryPointsLastWeek").integerValue
+        hash[faction_symbol / :victory_points / :total] = faction.readAttribute("victoryPointsTotal").integerValue
       end
       
       return result, xml.cachedUntil

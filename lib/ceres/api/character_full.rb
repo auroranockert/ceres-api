@@ -101,7 +101,7 @@ module Ceres
           :material / :multiplier => job.readAttribute("materialMultiplier").floatValue,
           :material / :character_multiplier => job.readAttribute("charMaterialMultiplier").floatValue,
           :time / :multiplier => job.readAttribute("timeMultiplier").floatValue,
-          :time :character_multiplier => job.readAttribute("charTimeMultiplier").floatValue,
+          :time / :character_multiplier => job.readAttribute("charTimeMultiplier").floatValue,
           :completed => (job.readAttribute("completed").integerValue == 1),
           :completed_successfully => (job.readAttribute("completedSuccessfully").integerValue == 1),
           :completed_status => [:failed, :delivered, :aborted, :gm_intervention, :unanchored, :destroyed][job.readAttribute("completedStatus").integerValue],
