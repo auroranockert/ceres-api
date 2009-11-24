@@ -29,26 +29,27 @@ module Ceres
         :race => xml.readNode("/eveapi/result/race").stringValue,
         :bloodline => xml.readNode("/eveapi/result/bloodLine").stringValue,
         :gender => xml.readNode("/eveapi/result/gender").stringValue,
-        :clone_name => xml.readNode("/eveapi/result/cloneName").stringValue,
-        :clone_skillpoints => xml.readNode("/eveapi/result/cloneSkillPoints").integerValue,
+        :clone / :name => xml.readNode("/eveapi/result/cloneName").stringValue,
+        :clone / :skillpoints => xml.readNode("/eveapi/result/cloneSkillPoints").integerValue,
         :balance => xml.readNode("/eveapi/result/balance").floatValue,
         
-        :attributes => {
-          :intelligence => xml.readNode("/eveapi/result/attributes/intelligence").integerValue,
-          :memory => xml.readNode("/eveapi/result/attributes/memory").integerValue,
-          :charisma => xml.readNode("/eveapi/result/attributes/charisma").integerValue,
-          :perception => xml.readNode("/eveapi/result/attributes/perception").integerValue,
-          :willpower => xml.readNode("/eveapi/result/attributes/willpower").integerValue
-        },
+        :attributes / :intelligence => xml.readNode("/eveapi/result/attributes/intelligence").integerValue,
+        :attributes / :memory => xml.readNode("/eveapi/result/attributes/memory").integerValue,
+        :attributes / :charisma => xml.readNode("/eveapi/result/attributes/charisma").integerValue,
+        :attributes / :perception => xml.readNode("/eveapi/result/attributes/perception").integerValue,
+        :attributes / :willpower => xml.readNode("/eveapi/result/attributes/willpower").integerValue,
         
-        :attribute_enhancers => {
-          :intelligence => parse_attribute_enhancer(xml, :intelligence),
-          :memory => parse_attribute_enhancer(xml, :memory),
-          :charisma => parse_attribute_enhancer(xml, :charisma),
-          :perception => parse_attribute_enhancer(xml, :perception),
-          :willpower => parse_attribute_enhancer(xml, :willpower)
-        },
-        
+        :attributes / :intelligence / :enhancer / :name => node.readNode("/eveapi/result/attributeEnhancers/intelligenceBonus/augmentatorName").stringValue
+        :attributes / :intelligence / :enhancer / :value => node.readNode("/eveapi/result/attributeEnhancers/intelligenceBonus/augmentatorValue").integerValue
+        :attributes / :memory / :enhancer / :name => node.readNode("/eveapi/result/attributeEnhancers/memoryBonus/augmentatorName").stringValue
+        :attributes / :memory / :enhancer / :value => node.readNode("/eveapi/result/attributeEnhancers/memoryBonus/augmentatorValue").integerValue
+        :attributes / :charisma / :enhancer / :name => node.readNode("/eveapi/result/attributeEnhancers/charismaBonus/augmentatorName").stringValue
+        :attributes / :charisma / :enhancer / :value => node.readNode("/eveapi/result/attributeEnhancers/charismaBonus/augmentatorValue").integerValue
+        :attributes / :perception / :enhancer / :name => node.readNode("/eveapi/result/attributeEnhancers/perceptionBonus/augmentatorName").stringValue
+        :attributes / :perception / :enhancer / :value => node.readNode("/eveapi/result/attributeEnhancers/perceptionBonus/augmentatorValue").integerValue
+        :attributes / :willpower / :enhancer / :name => node.readNode("/eveapi/result/attributeEnhancers/willpowerBonus/augmentatorName").stringValue
+        :attributes / :willpower / :enhancer / :value => node.readNode("/eveapi/result/attributeEnhancers/willpowerBonus/augmentatorValue").integerValue
+                
         :skills => xml.readNodes("/eveapi/result/rowset[@name='skills']/row").map do |skill|
           hash = {
             :id => skill.readAttribute("typeID").integerValue,
@@ -109,11 +110,12 @@ module Ceres
       else
         skill = {
           :id => xml.readNode("/eveapi/result/trainingTypeID").integerValue,
-          :started_at => xml.readNode("/eveapi/result/trainingStartTime").dateValue,
-          :ends_at => xml.readNode("/eveapi/result/trainingEndTime").dateValue,
-          :start_skillpoints => xml.readNode("/eveapi/result/trainingStartSP").integerValue,
-          :end_skillpoints => xml.readNode("/eveapi/result/trainingDestinationSP").integerValue,
-          :to_level => xml.readNode("/eveapi/result/trainingToLevel").integerValue
+          :to_level => xml.readNode("/eveapi/result/trainingToLevel").integerValue,
+          
+          :start / :at => xml.readNode("/eveapi/result/trainingStartTime").dateValue,
+          :start / :skillpoints => xml.readNode("/eveapi/result/trainingStartSP").integerValue,
+          :end / :at => xml.readNode("/eveapi/result/trainingEndTime").dateValue,
+          :end / :skillpoints => xml.readNode("/eveapi/result/trainingDestinationSP").integerValue
         }
       end
       
@@ -129,10 +131,11 @@ module Ceres
         queue[entry.readAttribute("queuePosition").integerValue] = {
           :id => entry.readAttribute("typeID").integerValue,
           :to_level => entry.readAttribute("level").integerValue,
-          :start_skillpoints => entry.readAttribute("startSP").integerValue,
-          :end_skillpoints => entry.readAttribute("endSP").integerValue,
-          :starts_at => entry.readAttribute("startTime").dateValue,
-          :ends_at => entry.readAttribute("endTime").dateValue
+          
+          :start / :at => entry.readAttribute("startTime").dateValue,
+          :start / :skillpoints => entry.readAttribute("startSP").integerValue,
+          :end / :at => entry.readAttribute("endTime").dateValue,
+          :end / :skillpoints => entry.readAttribute("endSP").integerValue
         }
       end
       
@@ -143,25 +146,21 @@ module Ceres
       xml = self.download(Ceres.character_urls[:faction_warfare])
       
       fw = {
-        :faction_id => xml.readNode("/eveapi/result/factionID").integerValue,
-        :faction => xml.readNode("/eveapi/result/factionName").integerValue,
+        :faction / :id => xml.readNode("/eveapi/result/factionID").integerValue,
+        :faction / :name=> xml.readNode("/eveapi/result/factionName").integerValue,
         
         :enlisted_at => xml.readNode("/eveapi/result/enlisted").dateValue,
         
-        :current_rank => xml.readNode("/eveapi/result/currentRank").integerValue,
-        :highest_rank => xml.readNode("/eveapi/result/highestRank").integerValue,
+        :rank / :current => xml.readNode("/eveapi/result/currentRank").integerValue,
+        :rank / :highest => xml.readNode("/eveapi/result/highestRank").integerValue,
         
-        :kills => {
-          :yesterday => xml.readNode("/eveapi/result/killsYesterday").integerValue,
-          :last_week => xml.readNode("/eveapi/result/killsLastWeek").integerValue,
-          :total => xml.readNode("/eveapi/result/killsTotal").integerValue
-        },
+        :kills / :yesterday => xml.readNode("/eveapi/result/killsYesterday").integerValue,
+        :kills / :last_week => xml.readNode("/eveapi/result/killsLastWeek").integerValue,
+        :kills / :total => xml.readNode("/eveapi/result/killsTotal").integerValue,
         
-        :victory_points => {
-          :yesterday => xml.readNode("/eveapi/result/victoryPointsYesterday").integerValue,
-          :last_week => xml.readNode("/eveapi/result/victoryPointsLastWeek").integerValue,
-          :total => xml.readNode("/eveapi/result/victoryPointsTotal").integerValue
-        }        
+        :victory_points / :yesterday => xml.readNode("/eveapi/result/victoryPointsYesterday").integerValue,
+        :victory_points / :last_week => xml.readNode("/eveapi/result/victoryPointsLastWeek").integerValue,
+        :victory_points / :total => xml.readNode("/eveapi/result/victoryPointsTotal").integerValue
       }
     end
     
@@ -172,9 +171,10 @@ module Ceres
         :current_corporation => xml.readNodes("/eveapi/result/rowset[@name='currentCorporation']/row").map do |medal|
           {
             :id => medal.readAttribute("medalID").integerValue,
+            :issuer_id => medal.readAttribute("issuerID").integerValue,
+            
             :reason => medal.readAttribute("reason").stringValue,
             :status => medal.readAttribute("standing").stringValue,
-            :issuer_id => medal.readAttribute("issuerID").integerValue,
             :issued_at => medal.readAttribute("issued").dateValue
           }
         end,
@@ -182,10 +182,12 @@ module Ceres
         :other_corporation => xml.readNodes("/eveapi/result/rowset[@name='otherCorporations']/row").map do |medal|
           {
             :id => medal.readAttribute("medalID").integerValue,
+            :issuer_id => medal.readAttribute("issuerID").integerValue,
+            
             :reason => medal.readAttribute("reason").stringValue,
             :status => medal.readAttribute("standing").stringValue,
-            :issuer_id => medal.readAttribute("issuerID").integerValue,
             :issued_at => medal.readAttribute("issued").dateValue,
+            
             :corporation_id => medal.readAttribute("corporationID").integerValue,
             :title => medal.readAttribute("title").stringValue,
             :description => medal.readAttribute("description").stringValue

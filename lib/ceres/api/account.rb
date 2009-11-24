@@ -27,8 +27,8 @@ module Ceres
         {
           :id => character.readAttribute("characterID").integerValue,
           :name => character.readAttribute("name").stringValue,
-          :corporation_id => character.readAttribute("corporationID").integerValue,
-          :corporation_name => character.readAttribute("corporationName").stringValue
+          :corporation / :id => character.readAttribute("corporationID").integerValue,
+          :corporation / :name => character.readAttribute("corporationName").stringValue
         }
       end
       

@@ -29,9 +29,9 @@ module Ceres
           :type_id => starbase.readAttribute("typeID").integerValue,
           :location_id => starbase.readAttribute("locationID").stringValue,
           :moon_id => starbase.readAttribute("moonID").stringValue,
+          :onlined_at => starbase.readAttribute("onlineTimestamp").dateValue,
           :state => [:unanchored, :anchored, :onlining, :reinforced, :online][starbase.readAttribute("state").integerValue],
-          :state_changed_at => starbase.readAttribute("stateTimestamp").dateValue,
-          :onlined_at => starbase.readAttribute("onlineTimestamp").dateValue
+          :state / :changed_at => starbase.readAttribute("stateTimestamp").dateValue
         }
       end
       
@@ -45,28 +45,22 @@ module Ceres
         :state => [:unanchored, :anchored, :onlining, :reinforced, :online][xml.readNode("/eveapi/result/state").integerValue],
         :state_changed_at => xml.readNode("/eveapi/result/stateTimestamp").dateValue,
         :onlined_at => xml.readNode("/eveapi/result/onlineTimestamp").dateValue,
-        :settings => {
-          :general => {
-            :usage => xml.readNode("/eveapi/result/generalSettings/usageFlags").integerValue,
-            :deploy => xml.readNode("/eveapi/result/generalSettings/deployFlags").integerValue,
-            :allows => [],
-            :claims_sovereignty => (xml.readNode("/eveapi/result/generalSettings/claimSovereignty").integerValue == 1)
-          },
-          :combat => {
-            :shoots_on => [:low_standing],
-            :standings => xml.readNode("/eveapi/result/combatSettings/onStandingDrop").readAttribute("standing").floatValue,
-            :status => xml.readNode("/eveapi/result/combatSettings/onStandingDrop").readAttribute("standing").floatValue
-          }
-        },
+        :settings / :general / :usage => xml.readNode("/eveapi/result/generalSettings/usageFlags").integerValue,
+        :settings / :general / :deploy => xml.readNode("/eveapi/result/generalSettings/deployFlags").integerValue,
+        :settings / :general / :allows => [],
+        :settings / :general / :claims_sovereignty => (xml.readNode("/eveapi/result/generalSettings/claimSovereignty").integerValue == 1),
+        :settings / :combat / :shoots_on => [:low_standing],
+        :settings / :combat / :standings => xml.readNode("/eveapi/result/combatSettings/onStandingDrop").readAttribute("standing").floatValue,
+        :settings / :combat / :status => xml.readNode("/eveapi/result/combatSettings/onStandingDrop").readAttribute("standing").floatValue,
         :fuel => { }
       }
       
-      starbase[:settings][:general][:allows] << :corporation if xml.readNode("/eveapi/result/generalSettings/allowCorporationMembers").integerValue == 1
-      starbase[:settings][:general][:allows] << :alliance if xml.readNode("/eveapi/result/generalSettings/allowAllianceMembers").integerValue == 1
+      starbase[:settings / :general / :allows] << :corporation if xml.readNode("/eveapi/result/generalSettings/allowCorporationMembers").integerValue == 1
+      starbase[:settings / :general / :allows] << :alliance if xml.readNode("/eveapi/result/generalSettings/allowAllianceMembers").integerValue == 1
       
-      starbase[:settings][:combat][:shoots_on] << :aggression if xml.readNode("/eveapi/result/combatSettings/onAggression").readAttribute("enabled").integerValue == 1
-      starbase[:settings][:combat][:shoots_on] << :low_status if xml.readNode("/eveapi/result/combatSettings/onStatusDrop").readAttribute("enabled").integerValue == 1
-      starbase[:settings][:combat][:shoots_on] << :war_target if xml.readNode("/eveapi/result/combatSettings/onCorporationWar").readAttribute("enabled").integerValue == 1
+      starbase[:settings / :combat / :shoots_on] << :aggression if xml.readNode("/eveapi/result/combatSettings/onAggression").readAttribute("enabled").integerValue == 1
+      starbase[:settings / :combat / :shoots_on] << :low_status if xml.readNode("/eveapi/result/combatSettings/onStatusDrop").readAttribute("enabled").integerValue == 1
+      starbase[:settings / :combat / :shoots_on] << :war_target if xml.readNode("/eveapi/result/combatSettings/onCorporationWar").readAttribute("enabled").integerValue == 1
       
       xml.readNode("/eveapi/result/rowset/row").each do |fuel|
         starbase[:fuel][fuel.readAttribute("typeID").integerValue] = fuel.readAttribute("quantity").integerValue

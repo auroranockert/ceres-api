@@ -109,8 +109,8 @@ module Ceres
               :group_id => skill.readAttribute("groupID").stringValue,
               :description => skill.readNode("description").stringValue,
               :rank => skill.readNode("rank").stringValue,
-              :primary_attribute => skill.readNode("requiredAttributes/primaryAttribute").stringValue,
-              :secondary_attribute => skill.readNode("requiredAttributes/secondaryAttribute").stringValue,
+              :attribute / :primary => skill.readNode("requiredAttributes/primaryAttribute").stringValue,
+              :attribute / :secondary => skill.readNode("requiredAttributes/secondaryAttribute").stringValue,
               
               :required_skills => skill.readNodes("rowset[@name='requiredSkills']/row").map do |required_skill|
                 { :id => required_skill.readAttribute("typeID").stringValue, :level => required_skill.readAttribute("skillLevel").integerValue }

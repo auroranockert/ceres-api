@@ -15,66 +15,11 @@
 #  You should have received a copy of the GNU General Public License
 #  along with Ceres-API.  If not, see <http://www.gnu.org/licenses/>.
 #
-#  Created by Jens Nockert on 11/4/09.
+#  Created by Jens Nockert on 11/24/09.
 #
 
-framework 'cocoa'
-
-require 'ceres/api/exceptions'
-require 'ceres/api/extensions'
-require 'ceres/api/urls'
-
-module Ceres
-  class API    
-    def initialize(settings = {})
-      @settings = settings
-    end
-    
-    def download(url, settings = {})
-      url = url.to_s
-      
-      attributes = @settings.merge(settings).map do |key, value|
-        key = case key
-        when :user_id
-          :userID
-        when :api_key
-          :apiKey
-        when :character_id
-          :characterID
-        else
-          key
-        end
-        
-        "#{key.to_s}=#{value.to_s.url_escape}"
-      end.join("&")
-      
-      if attributes != ""
-        url += "?#{attributes}"
-      end
-      
-      url, error = NSURL.URLWithString(url), Pointer.new_with_type('@')
-
-      result = NSXMLDocument.alloc.initWithContentsOfURL(url, options: 0, error: error)
-
-      error = error[0]
-
-      if error
-        raise StandardError, "oh dear... (#{error.description})"
-      else
-        result.checkForErrors
-        result
-      end
-    end    
-  end
+unless Object.name == "NSObject"
+  raise Exception, "Can only run Ceres under MacRuby."
 end
 
-require 'ceres/api/account'
-require 'ceres/api/character_full'
-require 'ceres/api/character_limited'
-require 'ceres/api/corporation_full'
-require 'ceres/api/corporation_limited'
-require 'ceres/api/fw'
-require 'ceres/api/map'
-require 'ceres/api/misc'
-require 'ceres/api/server'
-require 'ceres/api/starbase'
+require 'ceres/api/core'

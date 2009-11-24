@@ -19,8 +19,6 @@
 #
 
 module Ceres
-  class CeresError < StandardError; end
-
   # 1xx - User input errors
   class WalletNotPreviouslyLoadedError < CeresError; end      # Error Code: 100
   class WalletExhaustedError < CeresError; end                # Error Code: 101, 103

@@ -26,11 +26,11 @@ module Ceres
       stations = xml.readNodes("/eveapi/result/rowset/row").map do |station|
         {
           :id => station.readAttribute("stationID").integerValue,
-          :name => station.readAttribute("stationName").stringValue,
           :type_id => station.readAttribute("stationTypeID").integerValue,
+          :name => station.readAttribute("stationName").stringValue,
           :solar_system_id => station.readAttribute("solarSystemID").integerValue,
-          :corporation_id => station.readAttribute("corporationID").integerValue,
-          :corporation_name => station.readAttribute("corporationName").stringValue
+          :corporation / :id => station.readAttribute("corporationID").integerValue,
+          :corporation / :name => station.readAttribute("corporationName").stringValue
         }
       end
       
@@ -56,9 +56,9 @@ module Ceres
       systems = xml.readNodes("/eveapi/result/rowset/row").map do |system|
         {
           :id => system.readAttribute("solarSystemID").integerValue,
-          :ship_kills => system.readAttribute("shipKills").integerValue,
-          :faction_kills => system.readAttribute("factionKills").integerValue,
-          :pod_kills => system.readAttribute("podKills").integerValue
+          :kills / :ship => system.readAttribute("shipKills").integerValue,
+          :kills / :faction => system.readAttribute("factionKills").integerValue,
+          :kills / :pod => system.readAttribute("podKills").integerValue
         }
       end
       
@@ -74,8 +74,8 @@ module Ceres
           :name => system.readAttribute("solarSystemName").integerValue,
           :alliance_id => system.readAttribute("allianceID").integerValue,
           :faction_id => system.readAttribute("factionID").integerValue,
-          :sovereignty_level => system.readAttribute("sovereigntyLevel").integerValue,
-          :constellation_sovereignty => (system.readAttribute("constellationSovereignty").integerValue != 0)
+          :level => system.readAttribute("sovereigntyLevel").integerValue,
+          :constellation_sovereignty => (system.readAttribute("constellationSovereignty").integerValue == 1)
         }
       end
 

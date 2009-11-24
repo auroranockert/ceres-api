@@ -27,31 +27,29 @@ module Ceres
         :id => xml.readNode("/eveapi/result/corporationID").integerValue,
         :name => xml.readNode("/eveapi/result/corporationName").stringValue,
         :ticker => xml.readNode("/eveapi/result/ticker").stringValue,
-        :ceo_id => xml.readNode("/eveapi/result/ceoID").integerValue,
-        :ceo_name => xml.readNode("/eveapi/result/ceoName").stringValue,
-        :station_id => xml.readNode("/eveapi/result/stationID").integerValue,
-        :station_name => xml.readNode("/eveapi/result/stationName").stringValue,
+        :ceo / :id => xml.readNode("/eveapi/result/ceoID").integerValue,
+        :ceo / :name => xml.readNode("/eveapi/result/ceoName").stringValue,
+        :station / :id => xml.readNode("/eveapi/result/stationID").integerValue,
+        :station / :name => xml.readNode("/eveapi/result/stationName").stringValue,
         :description => xml.readNode("/eveapi/result/description").stringValue,
         :url => xml.readNode("/eveapi/result/url").stringValue,
-        :alliance_id => xml.readNode("/eveapi/result/allianceID").integerValue,
-        :alliance_name => xml.readNode("/eveapi/result/allianceName").stringValue,
+        :alliance / :id => xml.readNode("/eveapi/result/allianceID").integerValue,
+        :alliance / :name => xml.readNode("/eveapi/result/allianceName").stringValue,
         :tax => xml.readNode("/eveapi/result/taxRate").floatValue,
         :member_count => xml.readNode("/eveapi/result/memberCount").integerValue,
         :shares => xml.readNode("/eveapi/result/shares").integerValue,
         
-        :logo => {
-          :graphic_id => xml.readNode("/eveapi/result/logo/graphicID").integerValue,
-          :shape => [
-            xml.readNode("/eveapi/result/logo/shape1").integerValue,
-            xml.readNode("/eveapi/result/logo/shape2").integerValue,
-            xml.readNode("/eveapi/result/logo/shape3").integerValue
-          ],
-          :colour => [
-            xml.readNode("/eveapi/result/logo/color1").integerValue,
-            xml.readNode("/eveapi/result/logo/color2").integerValue,
-            xml.readNode("/eveapi/result/logo/color3").integerValue
-          ]
-        }
+        :logo / :graphic_id => xml.readNode("/eveapi/result/logo/graphicID").integerValue,
+        :logo / :shape => [
+          xml.readNode("/eveapi/result/logo/shape1").integerValue,
+          xml.readNode("/eveapi/result/logo/shape2").integerValue,
+          xml.readNode("/eveapi/result/logo/shape3").integerValue
+        ],
+        :logo / :colour => [
+          xml.readNode("/eveapi/result/logo/color1").integerValue,
+          xml.readNode("/eveapi/result/logo/color2").integerValue,
+          xml.readNode("/eveapi/result/logo/color3").integerValue
+        ]
       }
       
       unless corporation_id
