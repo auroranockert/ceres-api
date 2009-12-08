@@ -41,6 +41,8 @@
             	[X] Wallet Balance
             	[X] Wallet Transactions
             	[X] Wallet Journal
+				[ ] Mail
+				[ ] Notifications
         [ ] Tests
     [ ] Corporation API
         [ ] Implementation
@@ -84,7 +86,7 @@
             [X] Names to Identifiers
         [ ] Tests
     [ ] Starbases
-        [ ] Implementation
+        [X] Implementation
             [X] List
             [X] Details
         [ ] Tests

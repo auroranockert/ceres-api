@@ -67,15 +67,14 @@ module Ceres
 
     def sovereignty
       xml = self.download(Ceres.map_urls[:sovereignty])
-
+      
       systems = xml.readNodes("/eveapi/result/rowset/row").map do |system|
         {
           :id => system.readAttribute("solarSystemID").integerValue,
-          :name => system.readAttribute("solarSystemName").integerValue,
+          :name => system.readAttribute("solarSystemName").stringValue,
+          :corporation_id => system.readAttribute("corporationID").integerValue,
           :alliance_id => system.readAttribute("allianceID").integerValue,
-          :faction_id => system.readAttribute("factionID").integerValue,
-          :level => system.readAttribute("sovereigntyLevel").integerValue,
-          :constellation_sovereignty => (system.readAttribute("constellationSovereignty").integerValue == 1)
+          :faction_id => system.readAttribute("factionID").integerValue
         }
       end
 

@@ -48,7 +48,6 @@ module Ceres
         :settings / :general / :usage => xml.readNode("/eveapi/result/generalSettings/usageFlags").integerValue,
         :settings / :general / :deploy => xml.readNode("/eveapi/result/generalSettings/deployFlags").integerValue,
         :settings / :general / :allows => [],
-        :settings / :general / :claims_sovereignty => (xml.readNode("/eveapi/result/generalSettings/claimSovereignty").integerValue == 1),
         :settings / :combat / :shoots_on => [:low_standing],
         :settings / :combat / :standings => xml.readNode("/eveapi/result/combatSettings/onStandingDrop").readAttribute("standing").floatValue,
         :settings / :combat / :status => xml.readNode("/eveapi/result/combatSettings/onStandingDrop").readAttribute("standing").floatValue,

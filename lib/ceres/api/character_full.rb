@@ -32,14 +32,14 @@ module Ceres
           :location_id => asset.readAttribute("locationID").integerValue,
           :type_id => asset.readAttribute("typeID").integerValue,
           :quantity => asset.readAttribute("quantity").integerValue,
-          :flags => parse_inventory_flags(asset.readAttribute("flag").integerValue),
+          :flags => asset.readAttribute("flag").integerValue,
           :singleton => (asset.readAttribute("singleton").integerValue == 1),
           :contents => asset.readNodes("rowset/row").map do |item|
             {
               :id => item.readAttribute("itemID").integerValue,
               :type_id => item.readAttribute("typeID").integerValue,
               :quantity => item.readAttribute("quantity").integerValue,
-              :flags => parse_inventory_flags(item.readAttribute("flag").integerValue),
+              :flags => item.readAttribute("flag").integerValue,
               :singleton => (item.readAttribute("singleton").integerValue == 1),
             }
           end
@@ -93,10 +93,10 @@ module Ceres
           :installed_item / :material_level => job.readAttribute("installedItemMaterialLevel").integerValue,
           :installed_item / :runs_remaining => job.readAttribute("installedItemLicensedProductionRunsRemaining").integerValue,
           :installed_item / :copy => (job.readAttribute("installedItemCopy") == 1),
-          :installed_item / :flags => parse_inventory_flags(job.readAttribute("installedItemFlag").integerValue),
+          :installed_item / :flags => job.readAttribute("installedItemFlag").integerValue,
           :output / :type_id => job.readAttribute("outputTypeID").integerValue,
           :output / :location_id => job.readAttribute("outputLocationID").integerValue,
-          :output / :flags => parse_inventory_flags(job.readAttribute("outputFlag").integerValue),
+          :output / :flags => job.readAttribute("outputFlag").integerValue,
           :runs => job.readAttribute("runs").integerValue,
           :material / :multiplier => job.readAttribute("materialMultiplier").floatValue,
           :material / :character_multiplier => job.readAttribute("charMaterialMultiplier").floatValue,
@@ -176,47 +176,6 @@ module Ceres
       end
       
       return entries, xml.cachedUntil
-    end
-    
-  private
-    def parse_inventory_flags(flag)
-      case flag
-      when 0 then :none
-      when 1 then :wallet
-      when 2 then :factory
-      when 4 then :hangar
-      when 5 then :cargo
-      when 6 then :briefcase
-      when 7 then :skill
-      when 8 then :reward
-      when 9 then :connected
-      when 10 then :disconnected
-      when 11 .. 18 then :low_slot
-      when 19 .. 26 then :mid_slot
-      when 27 .. 34 then :high_slot
-      when 35 then :fixed_slot
-      when 56 then :capsule
-      when 57 then :pilot
-      when 58 then :passenger
-      when 59 then :boarding_gate
-      when 60 then :crew
-      when 61 then :skill_in_training
-      when 62 then :corporation_market
-      when 63 then :locked
-      when 64 then :unlocked
-      when 70 .. 85 then :office_slot
-      when 86 then :bonus
-      when 87 then :drone_bay
-      when 88 then :booster
-      when 89 then :implant
-      when 90 then :ship_hangar
-      when 91 then :ship_offline
-      when 92 .. 99 then :rig_slot
-      when 100 then :factory_operation
-      when 114 .. 121 then :corporation_access_group
-      else
-        raise ArgumentError, "oh dear, flag (#{flag}) not in code, please fix."
-      end
     end
     
     def parse_range(range)
