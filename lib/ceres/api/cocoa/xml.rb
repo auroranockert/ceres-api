@@ -18,7 +18,13 @@
 #
 
 class CocoaXMLDocument
-  def from_string(xml)
+  def self.from_nsxml(xml)
+    result = CocoaXMLDocument.new(result)
+    result.errors
+    result
+  end
+  
+  def self.from_string(xml)
     error = Pointer.new_with_type('@')
 
     result = NSXMLDocument.alloc.initWithXMLString(xml, options: 0, error: error)

@@ -32,7 +32,11 @@ module Ceres
     end
     
     def self.from_nsxml(xml)
-      CocoaXMLDocument.new(xml)
+      if Object.name == "NSObject"
+        CocoaXMLDocument.from_nsxml(xml)
+      else
+        raise Exception, "Can only run Ceres under MacRuby."
+      end
     end
   end
 end

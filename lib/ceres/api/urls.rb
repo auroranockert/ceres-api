@@ -19,7 +19,7 @@
 #
 
 module Ceres
-  @base_url = "http =>//api.eve-online.com"
+  @base_url = "http://api.eve-online.com"
 
 
   @account_urls = {
