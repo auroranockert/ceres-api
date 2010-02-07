@@ -20,95 +20,95 @@
 
 module Ceres
   @base_url = "http://api.eve-online.com"
-  
-  
+
   @account_urls = {
-    characters:                     "#{@base_url}/account/Characters.xml.aspx",
+    characters:                     "/account/Characters.xml.aspx",
   }
-  
+
   @character_urls = {
-    sheet:                          "#{@base_url}/char/CharacterSheet.xml.aspx",
-    
-    training:                       "#{@base_url}/char/SkillInTraining.xml.aspx",
-    skill_queue:                    "#{@base_url}/char/SkillQueue.xml.aspx",
-    
-    assets:                         "#{@base_url}/char/AssetList.xml.aspx",
-    market_orders:                  "#{@base_url}/char/MarketOrders.xml.aspx",
-    industry_jobs:                  "#{@base_url}/char/IndustryJobs.xml.aspx",
-    kills:                          "#{@base_url}/char/KillLog.xml.aspx",
-    
-    faction_warfare:                "#{@base_url}/char/FacWarStats.xml.aspx",
-    
-    medals:                         "#{@base_url}/char/Medals.xml.aspx",
-    
-    wallet_balance:                 "#{@base_url}/char/AccountBalance.xml.aspx",
-    wallet_transactions:            "#{@base_url}/char/WalletTransactions.xml.aspx",
-    wallet_journal:                 "#{@base_url}/char/WalletJournal.xml.aspx",
-  
-    standings:                      "#{@base_url}/char/Standings.xml.aspx"
+    sheet:                          "/char/CharacterSheet.xml.aspx",
+
+    training:                       "/char/SkillInTraining.xml.aspx",
+    skill_queue:                    "/char/SkillQueue.xml.aspx",
+
+    assets:                         "/char/AssetList.xml.aspx",
+    market_orders:                  "/char/MarketOrders.xml.aspx",
+    industry_jobs:                  "/char/IndustryJobs.xml.aspx",
+    kills:                          "/char/KillLog.xml.aspx",
+
+    faction_warfare:                "/char/FacWarStats.xml.aspx",
+
+    medals:                         "/char/Medals.xml.aspx",
+
+    wallet_balance:                 "/char/AccountBalance.xml.aspx",
+    wallet_transactions:            "/char/WalletTransactions.xml.aspx",
+    wallet_journal:                 "/char/WalletJournal.xml.aspx",
+
+    standings:                      "/char/Standings.xml.aspx"
   }
-  
+
   @corporation_urls = {
-    sheet:                          "#{@base_url}/corp/CorporationSheet.xml.aspx",
-    
-    assets:                         "#{@base_url}/corp/AssetList.xml.aspx",
-    market_orders:                  "#{@base_url}/corp/MarketOrders.xml.aspx",
-    industry_jobs:                  "#{@base_url}/corp/IndustryJobs.xml.aspx",
-    kills:                          "#{@base_url}/corp/KillLog.xml.aspx",
-    
-    faction_warfare:                "#{@base_url}/corp/FacWarStats.xml.aspx",
-    
-    medals:                         "#{@base_url}/corp/Medals.xml.aspx",
-    medals_issued:                  "#{@base_url}/corp/MemberMedals.xml.aspx",
-    titles:                         "#{@base_url}/corp/Titles.xml.aspx",
-    
-    wallet_balance:                 "#{@base_url}/corp/AccountBalance.xml.aspx",
-    wallet_transactions:            "#{@base_url}/corp/WalletTransactions.xml.aspx",
-    wallet_journal:                 "#{@base_url}/corp/WalletJournal.xml.aspx",
-    
-    member_security:                "#{@base_url}/corp/MemberSecurity.xml.aspx",
-    member_tracking:                "#{@base_url}/corp/MemberTracking.xml.aspx",
-    
-    member_security_log:            "#{@base_url}/corp/MemberSecurityLog.xml.aspx",
-    container_log:                  "#{@base_url}/corp/ContainerLog.xml.aspx",
-    
-    standings:                      "#{@base_url}/corp/Standings.xml.aspx",
-    
-    shareholders:                   "#{@base_url}/corp/Sharholders.xml.aspx"
+    sheet:                          "/corp/CorporationSheet.xml.aspx",
+
+    assets:                         "/corp/AssetList.xml.aspx",
+    market_orders:                  "/corp/MarketOrders.xml.aspx",
+    industry_jobs:                  "/corp/IndustryJobs.xml.aspx",
+    kills:                          "/corp/KillLog.xml.aspx",
+
+    faction_warfare:                "/corp/FacWarStats.xml.aspx",
+
+    medals:                         "/corp/Medals.xml.aspx",
+    medals_issued:                  "/corp/MemberMedals.xml.aspx",
+    titles:                         "/corp/Titles.xml.aspx",
+
+    wallet_balance:                 "/corp/AccountBalance.xml.aspx",
+    wallet_transactions:            "/corp/WalletTransactions.xml.aspx",
+    wallet_journal:                 "/corp/WalletJournal.xml.aspx",
+
+    member_security:                "/corp/MemberSecurity.xml.aspx",
+    member_tracking:                "/corp/MemberTracking.xml.aspx",
+
+    member_security_log:            "/corp/MemberSecurityLog.xml.aspx",
+    container_log:                  "/corp/ContainerLog.xml.aspx",
+
+    standings:                      "/corp/Standings.xml.aspx",
+
+    shareholders:                   "/corp/Sharholders.xml.aspx"
   }
-  
+
   @faction_warfare_urls = {
-    statistics:                     "#{@base_url}/eve/FacWarStats.xml.aspx",
-    top_100:                        "#{@base_url}/eve/FacWarTopStats.xml.aspx",
-    occupancy:                      "#{@base_url}/map/FacWarSystems.xml.aspx"
+    statistics:                     "/eve/FacWarStats.xml.aspx",
+    top_100:                        "/eve/FacWarTopStats.xml.aspx",
+    occupancy:                      "/map/FacWarSystems.xml.aspx"
   }
-  
+
   @map_urls = {
-    conquerable_stations:           "#{@base_url}/eve/ConquerableStationList.xml.aspx",
-    jumps:                          "#{@base_url}/map/Jumps.xml.aspx",
-    kills:                          "#{@base_url}/map/Kills.xml.aspx",
-    sovereignty:                    "#{@base_url}/map/Sovereignty.xml.aspx"
+    conquerable_stations:           "/eve/ConquerableStationList.xml.aspx",
+    jumps:                          "/map/Jumps.xml.aspx",
+    kills:                          "/map/Kills.xml.aspx",
+    sovereignty:                    "/map/Sovereignty.xml.aspx"
   }
-  
+
   @misc_urls = {
-    alliances:                      "#{@base_url}/eve/AllianceList.xml.aspx",
-    certificate_tree:               "#{@base_url}/eve/CertificateTree.xml.aspx",
-    identifiers_to_names:           "#{@base_url}/eve/CharacterName.xml.aspx",
-    names_to_identifiers:           "#{@base_url}/eve/CharacterID.xml.aspx",
-    errors:                         "#{@base_url}/eve/ErrorList.xml.aspx",
-    ref_types:                      "#{@base_url}/eve/RefTypes.xml.aspx",
-    skill_tree:                     "#{@base_url}/eve/SkillTree.xml.aspx"      
+    alliances:                      "/eve/AllianceList.xml.aspx",
+    certificate_tree:               "/eve/CertificateTree.xml.aspx",
+    identifiers_to_names:           "/eve/CharacterName.xml.aspx",
+    names_to_identifiers:           "/eve/CharacterID.xml.aspx",
+    errors:                         "/eve/ErrorList.xml.aspx",
+    ref_types:                      "/eve/RefTypes.xml.aspx",
+    skill_tree:                     "/eve/SkillTree.xml.aspx"
   }
-  
+
   @starbase_urls = {
-    list:                           "#{@base_url}/corp/StarbaseList.xml.aspx",
-    details:                        "#{@base_url}/corp/StarbaseDetail.xml.aspx"
+    list:                           "/corp/StarbaseList.xml.aspx",
+    details:                        "/corp/StarbaseDetail.xml.aspx"
   }
-  
+
   @server_urls = {
-    status:                         "#{@base_url}/Server/ServerStatus.xml.aspx"
+    status:                         "/Server/ServerStatus.xml.aspx"
   }
   
+  def self.base_url; @base_url; end
   def self.account_urls; @account_urls; end
   def self.character_urls; @character_urls; end
   def self.corporation_urls; @corporation_urls; end
