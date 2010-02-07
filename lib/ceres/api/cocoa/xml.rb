@@ -18,36 +18,7 @@
 #
 
 module Ceres
-  module API
-    class CocoaXMLDocument < CocoaXMLNode
-      include Ceres::API::XMLHelper
-      
-      def self.from_nsxml(xml)
-        result = CocoaXMLDocument.new(result)
-        result.errors
-        result
-      end
-  
-      def self.from_string(xml)
-        error = Pointer.new_with_type('@')
-
-        result = NSXMLDocument.alloc.initWithXMLString(xml, options: 0, error: error)
-
-        error = error[0]
-
-        if error
-          raise StandardError, "oh dear... (#{error.description})"
-        else
-          result = CocoaXMLDocument.new(result)
-          result.errors
-          result
-        end
-      end
-      
-      def self.init
-      end
-    end
-
+  class API
     class CocoaXMLNode
       def initialize(xml)
         @xml = xml
@@ -56,7 +27,6 @@ module Ceres
       def read_nodes(xpath)
         error = Pointer.new_with_type('@')
         result = @xml.nodesForXPath(xpath, error: error)
-
         error = error[0]
 
         if error
@@ -88,6 +58,31 @@ module Ceres
 
       def to_date
         Time.parse(self.to_s)
+      end
+    end
+    
+    class CocoaXMLDocument < CocoaXMLNode
+      include Ceres::API::XMLHelper
+      
+      def self.from_nsxml(xml)
+        result = CocoaXMLDocument.new(xml)
+        result.errors
+        result
+      end
+  
+      def self.from_string(xml)
+        error = Pointer.new_with_type('@')
+        result = NSXMLDocument.alloc.initWithXMLString(xml, options: 0, error: error)
+        error = error[0]
+
+        if error
+          raise StandardError, "oh dear... (#{error.description})"
+        else
+          self.from_nsxml(result)
+        end
+      end
+      
+      def self.init
       end
     end
   end

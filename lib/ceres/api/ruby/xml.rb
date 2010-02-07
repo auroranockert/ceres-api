@@ -18,23 +18,7 @@
 #
 
 module Ceres
-  module API
-    class NokogiriXMLDocument < NokogiriXMLNode
-      include Ceres::API::XMLHelper
-      
-      def self.from_nsxml(xml)
-        raise "Nokogiri can not use NSXMLDocuments, sorry."
-      end
-  
-      def self.from_string(xml)
-        @xml = Nokogiri::XML.parse(xml)
-      end
-      
-      def self.init
-        require 'nokogiri'
-      end
-    end
-
+  class API
     class NokogiriXMLNode
       def initialize(xml)
         @xml = xml
@@ -67,6 +51,24 @@ module Ceres
 
       def to_date
         Time.parse(self.to_s)
+      end
+    end
+    
+    class NokogiriXMLDocument < NokogiriXMLNode
+      include Ceres::API::XMLHelper
+      
+      def self.from_nsxml(xml)
+        raise "Nokogiri can not use NSXMLDocuments, sorry."
+      end
+  
+      def self.from_string(xml)
+        result = NokogiriXMLDocument.new(Nokogiri::XML.parse(xml))
+        result.errors
+        result
+      end
+      
+      def self.init
+        require 'nokogiri'
       end
     end
   end

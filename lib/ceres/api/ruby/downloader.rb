@@ -18,14 +18,14 @@
 #
 
 module Ceres
-  module API
+  class API
     module RubyDownloader
       def self.init
         require 'open-uri'
       end
   
       def self.download(url)
-        Ceres::XMLDocument.from_string(open(url).read)
+        Ceres::API.xml_parser.from_string(open(url).read)
       end
     end
 
@@ -39,7 +39,7 @@ module Ceres
   
       def self.download(url)
         File.open('./xml/' + Digest::SHA1.hexdigest(url) + '.xml') do |f|
-          result = Ceres::XMLDocument.from_string(f.read)
+          result = Ceres::API.xml_parser.from_string(f.read)
         end
     
         result

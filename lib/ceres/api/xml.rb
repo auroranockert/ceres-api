@@ -17,23 +17,17 @@
 #  Created by Jens Nockert on 7/2/10.
 #
 
-if Object.name == "NSObject"
-  require 'ceres/api/cocoa/xml'
-else
-  require 'ceres/api/ruby/xml'
-end
-
 module Ceres
-  module API
+  class API
     module XMLHelper
-      def self.cached_until
+      def cached_until
         current_time = self.read_node("/eveapi/currentTime").to_date
         cached_until = self.read_node("/eveapi/cachedUntil").to_date
 
         Time.now + (cached_until - current_time)
       end
 
-      def self.errors
+      def errors
         error = self.read_node("/eveapi/error")
 
         if error
@@ -82,4 +76,10 @@ module Ceres
       end
     end
   end
+end
+
+if Object.name == "NSObject"
+  require 'ceres/api/cocoa/xml'
+else
+  require 'ceres/api/ruby/xml'
 end

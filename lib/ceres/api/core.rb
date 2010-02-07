@@ -31,7 +31,6 @@ require 'ceres/api/downloaders'
 require 'ceres/api/xml'
 
 require 'ceres/api/exceptions'
-require 'ceres/api/extensions'
 require 'ceres/api/urls'
 
 module Ceres
@@ -50,8 +49,8 @@ module Ceres
       @parser = parser
     end
     
-    def self.parser
-      @parser ||= (Object.name == "NSObject" ? (CocoaXMLDocument.init; CocoaDownloader) : (NokogiriXMLDocument.init; NokogiriXMLDocument))
+    def self.xml_parser
+      @parser ||= (Object.name == "NSObject" ? (CocoaXMLDocument.init; CocoaXMLDocument) : (NokogiriXMLDocument.init; NokogiriXMLDocument))
     end
     
     def initialize(settings = {})

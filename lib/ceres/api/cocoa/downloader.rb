@@ -34,7 +34,7 @@ module Ceres
         if error
           raise StandardError, "oh dear... (#{error.description})"
         else
-          Ceres::XMLDocument.from_nsxml(result)
+          Ceres::API.xml_parser.from_nsxml(result)
         end
       end
     end
