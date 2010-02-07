@@ -63,7 +63,7 @@ module Ceres
           :apiKey
         when :character_id
           :characterID
-        when :itemID, :ids, :names
+        when :itemID, :beforeRefID, :ids, :names
           key
         end
       

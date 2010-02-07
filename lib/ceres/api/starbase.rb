@@ -23,49 +23,49 @@ module Ceres
     def starbases
       xml = self.download(Ceres.starbase_urls[:list])
       
-      starbases = xml.readNodes("/eveapi/result/rowset/row").map do |starbase|
+      starbases = xml.read_nodes("/eveapi/result/rowset/row").map do |starbase|
         {
-          :id => starbase.readAttribute("itemID").to_i,
-          :type_id => starbase.readAttribute("typeID").to_i,
-          :location_id => starbase.readAttribute("locationID").to_s,
-          :moon_id => starbase.readAttribute("moonID").to_s,
-          :onlined_at => starbase.readAttribute("onlineTimestamp").to_date,
-          :state => [:unanchored, :anchored, :onlining, :reinforced, :online][starbase.readAttribute("state").to_i],
-          :state / :changed_at => starbase.readAttribute("stateTimestamp").to_date
+          :id => starbase.read_attribute("itemID").to_i,
+          :type_id => starbase.read_attribute("typeID").to_i,
+          :location_id => starbase.read_attribute("locationID").to_s,
+          :moon_id => starbase.read_attribute("moonID").to_s,
+          :onlined_at => starbase.read_attribute("onlineTimestamp").to_date,
+          :state => [:unanchored, :anchored, :onlining, :reinforced, :online][starbase.read_attribute("state").to_i],
+          :state / :changed_at => starbase.read_attribute("stateTimestamp").to_date
         }
       end
       
-      return starbases, xml.cachedUntil      
+      return starbases, xml.cached_until      
     end
     
     def starbase(identifier)
-      xml = self.download(Ceres.starbase_urls[:details], itemID: identifier.to_s)
+      xml = self.download(Ceres.starbase_urls[:details], :itemID => identifier.to_s)
       
       starbase = {        
-        :state => [:unanchored, :anchored, :onlining, :reinforced, :online][xml.readNode("/eveapi/result/state").to_i],
-        :state_changed_at => xml.readNode("/eveapi/result/stateTimestamp").to_date,
-        :onlined_at => xml.readNode("/eveapi/result/onlineTimestamp").to_date,
-        :settings / :general / :usage => xml.readNode("/eveapi/result/generalSettings/usageFlags").to_i,
-        :settings / :general / :deploy => xml.readNode("/eveapi/result/generalSettings/deployFlags").to_i,
+        :state => [:unanchored, :anchored, :onlining, :reinforced, :online][xml.read_node("/eveapi/result/state").to_i],
+        :state_changed_at => xml.read_node("/eveapi/result/stateTimestamp").to_date,
+        :onlined_at => xml.read_node("/eveapi/result/onlineTimestamp").to_date,
+        :settings / :general / :usage => xml.read_node("/eveapi/result/generalSettings/usageFlags").to_i,
+        :settings / :general / :deploy => xml.read_node("/eveapi/result/generalSettings/deployFlags").to_i,
         :settings / :general / :allows => [],
         :settings / :combat / :shoots_on => [:low_standing],
-        :settings / :combat / :standings => xml.readNode("/eveapi/result/combatSettings/onStandingDrop").readAttribute("standing").floatValue,
-        :settings / :combat / :status => xml.readNode("/eveapi/result/combatSettings/onStandingDrop").readAttribute("standing").floatValue,
+        :settings / :combat / :standings => xml.read_node("/eveapi/result/combatSettings/onStandingDrop").read_attribute("standing").floatValue,
+        :settings / :combat / :status => xml.read_node("/eveapi/result/combatSettings/onStandingDrop").read_attribute("standing").floatValue,
         :fuel => { }
       }
       
-      starbase[:settings / :general / :allows] << :corporation if xml.readNode("/eveapi/result/generalSettings/allowCorporationMembers").to_i == 1
-      starbase[:settings / :general / :allows] << :alliance if xml.readNode("/eveapi/result/generalSettings/allowAllianceMembers").to_i == 1
+      starbase[:settings / :general / :allows] << :corporation if xml.read_node("/eveapi/result/generalSettings/allowCorporationMembers").to_i == 1
+      starbase[:settings / :general / :allows] << :alliance if xml.read_node("/eveapi/result/generalSettings/allowAllianceMembers").to_i == 1
       
-      starbase[:settings / :combat / :shoots_on] << :aggression if xml.readNode("/eveapi/result/combatSettings/onAggression").readAttribute("enabled").to_i == 1
-      starbase[:settings / :combat / :shoots_on] << :low_status if xml.readNode("/eveapi/result/combatSettings/onStatusDrop").readAttribute("enabled").to_i == 1
-      starbase[:settings / :combat / :shoots_on] << :war_target if xml.readNode("/eveapi/result/combatSettings/onCorporationWar").readAttribute("enabled").to_i == 1
+      starbase[:settings / :combat / :shoots_on] << :aggression if xml.read_node("/eveapi/result/combatSettings/onAggression").read_attribute("enabled").to_i == 1
+      starbase[:settings / :combat / :shoots_on] << :low_status if xml.read_node("/eveapi/result/combatSettings/onStatusDrop").read_attribute("enabled").to_i == 1
+      starbase[:settings / :combat / :shoots_on] << :war_target if xml.read_node("/eveapi/result/combatSettings/onCorporationWar").read_attribute("enabled").to_i == 1
       
-      xml.readNodes("/eveapi/result/rowset/row").each do |fuel|
-        starbase[:fuel][fuel.readAttribute("typeID").to_i] = fuel.readAttribute("quantity").to_i
+      xml.read_nodes("/eveapi/result/rowset/row").each do |fuel|
+        starbase[:fuel][fuel.read_attribute("typeID").to_i] = fuel.read_attribute("quantity").to_i
       end
       
-      return starbase, xml.cachedUntil
+      return starbase, xml.cached_until
     end
   end
 end

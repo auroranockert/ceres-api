@@ -23,47 +23,47 @@ module Ceres
     def alliances
       xml = self.download(Ceres.misc_urls[:alliances])
       
-      alliances = xml.readNodes("/eveapi/result/rowset/row").map do |alliance|
+      alliances = xml.read_nodes("/eveapi/result/rowset/row").map do |alliance|
         {
-          :id => alliance.readAttribute("allianceID").to_i,
-          :name => alliance.readAttribute("name").to_s,
-          :short_name => alliance.readAttribute("shortName").to_s,
-          :executor_id => alliance.readAttribute("executorCorpID").to_i,
-          :member_count => alliance.readAttribute("memberCount").to_s,
-          :start_date => alliance.readAttribute("name").to_date,
-          :member_corporations => alliance.readNodes("rowset/row").map do |corporation|
-            { :id => corporation.readAttribute("corporationID").to_i, :start_date => corporation.readAttribute("startDate").to_date }
+          :id => alliance.read_attribute("allianceID").to_i,
+          :name => alliance.read_attribute("name").to_s,
+          :short_name => alliance.read_attribute("shortName").to_s,
+          :executor_id => alliance.read_attribute("executorCorpID").to_i,
+          :member_count => alliance.read_attribute("memberCount").to_s,
+          :start_date => alliance.read_attribute("name").to_date,
+          :member_corporations => alliance.read_nodes("rowset/row").map do |corporation|
+            { :id => corporation.read_attribute("corporationID").to_i, :start_date => corporation.read_attribute("startDate").to_date }
           end
         }
       end
       
-      return alliances, xml.cachedUntil
+      return alliances, xml.cached_until
     end
     
     def certificate_tree
       xml = self.download(Ceres.misc_urls[:certificate_tree])
       
-      categories = xml.readNodes("/eveapi/result/rowset/row").map do |category|
+      categories = xml.read_nodes("/eveapi/result/rowset/row").map do |category|
         {
-          :id => category.readAttribute("categoryID").to_i,
-          :name => category.readAttribute("categoryName").to_s,
-          :classes => category.readNodes("rowset/row").map do |klass|
+          :id => category.read_attribute("categoryID").to_i,
+          :name => category.read_attribute("categoryName").to_s,
+          :classes => category.read_nodes("rowset/row").map do |klass|
             {
-              :id => klass.readAttribute("classID").to_i,
-              :name => klass.readAttribute("className").to_s,
-              :certificates => klass.readNodes("rowset/row").map do |certificate|
+              :id => klass.read_attribute("classID").to_i,
+              :name => klass.read_attribute("className").to_s,
+              :certificates => klass.read_nodes("rowset/row").map do |certificate|
                 {
-                  :id => certificate.readAttribute("certificateID").to_i,
-                  :grade => certificate.readAttribute("grade").to_i,
-                  :corporation_id => certificate.readAttribute("corporationID").to_i,
-                  :description => certificate.readAttribute("description").to_s,
+                  :id => certificate.read_attribute("certificateID").to_i,
+                  :grade => certificate.read_attribute("grade").to_i,
+                  :corporation_id => certificate.read_attribute("corporationID").to_i,
+                  :description => certificate.read_attribute("description").to_s,
                   
-                  :required_skills => certificate.readNodes("rowset[@name='requiredSkills']/row").map do |required_skill|
-                    { :id => required_skill.readAttribute("typeID").to_s, :level => required_skill.readAttribute("level").to_i }
+                  :required_skills => certificate.read_nodes("rowset[@name='requiredSkills']/row").map do |required_skill|
+                    { :id => required_skill.read_attribute("typeID").to_s, :level => required_skill.read_attribute("level").to_i }
                   end,
                   
-                  :required_certificates => certificate.readNodes("rowset[@name='requiredCertificates']/row").map do |required_certificate|
-                    { :id => required_certificate.readAttribute("certificateID").to_s, :grade => required_certificate.readAttribute("grade").to_i }
+                  :required_certificates => certificate.read_nodes("rowset[@name='requiredCertificates']/row").map do |required_certificate|
+                    { :id => required_certificate.read_attribute("certificateID").to_s, :grade => required_certificate.read_attribute("grade").to_i }
                   end
                 }
               end
@@ -72,52 +72,52 @@ module Ceres
         }
       end
       
-      return categories, xml.cachedUntil
+      return categories, xml.cached_until
     end
     
     def errors
       xml = self.download(Ceres.misc_urls[:errors])
       
-      errors = xml.readNodes("/eveapi/result/rowset/row").map do |error|
-        { :id => error.readAttribute("errorCode").to_i, :text => error.readAttribute("errorText").to_s }
+      errors = xml.read_nodes("/eveapi/result/rowset/row").map do |error|
+        { :id => error.read_attribute("errorCode").to_i, :text => error.read_attribute("errorText").to_s }
       end
       
-      return errors, xml.cachedUntil
+      return errors, xml.cached_until
     end
     
     def ref_types
       xml = self.download(Ceres.misc_urls[:ref_types])
       
-      refs = xml.readNodes("/eveapi/result/rowset/row").map do |ref|
-        { :id => ref.readAttribute("refTypeID").to_i, :text => ref.readAttribute("refTypeName").to_s }
+      refs = xml.read_nodes("/eveapi/result/rowset/row").map do |ref|
+        { :id => ref.read_attribute("refTypeID").to_i, :text => ref.read_attribute("refTypeName").to_s }
       end
       
-      return refs, xml.cachedUntil
+      return refs, xml.cached_until
     end
     
     def skill_tree
       xml = self.download(Ceres.misc_urls[:skill_tree])
       
-      skill_groups = xml.readNodes("/eveapi/result/rowset/row").map do |skill_group|
+      skill_groups = xml.read_nodes("/eveapi/result/rowset/row").map do |skill_group|
         {
-          :id => skill_group.readAttribute("groupID").to_i,
-          :name => skill_group.readAttribute("groupName").to_s,
-          :skills => skill_group.readNodes("rowset/row").map do |skill|
+          :id => skill_group.read_attribute("groupID").to_i,
+          :name => skill_group.read_attribute("groupName").to_s,
+          :skills => skill_group.read_nodes("rowset/row").map do |skill|
             {
-              :id => skill.readAttribute("typeID").to_i,
-              :name => skill.readAttribute("typeName").to_s,
-              :group_id => skill.readAttribute("groupID").to_s,
-              :description => skill.readNode("description").to_s,
-              :rank => skill.readNode("rank").to_s,
-              :attribute / :primary => skill.readNode("requiredAttributes/primaryAttribute").to_s,
-              :attribute / :secondary => skill.readNode("requiredAttributes/secondaryAttribute").to_s,
+              :id => skill.read_attribute("typeID").to_i,
+              :name => skill.read_attribute("typeName").to_s,
+              :group_id => skill.read_attribute("groupID").to_s,
+              :description => skill.read_node("description").to_s,
+              :rank => skill.read_node("rank").to_s,
+              :attribute / :primary => skill.read_node("requiredAttributes/primaryAttribute").to_s,
+              :attribute / :secondary => skill.read_node("requiredAttributes/secondaryAttribute").to_s,
               
-              :required_skills => skill.readNodes("rowset[@name='requiredSkills']/row").map do |required_skill|
-                { :id => required_skill.readAttribute("typeID").to_s, :level => required_skill.readAttribute("skillLevel").to_i }
+              :required_skills => skill.read_nodes("rowset[@name='requiredSkills']/row").map do |required_skill|
+                { :id => required_skill.read_attribute("typeID").to_s, :level => required_skill.read_attribute("skillLevel").to_i }
               end,
               
-              :bonuses => skill.readNodes("rowset[@name='skillBonusCollection']/row").map do |bonus|
-                { :type => bonus.readAttribute("bonusType").to_s, :value => bonus.readAttribute("bonusValue").to_s }
+              :bonuses => skill.read_nodes("rowset[@name='skillBonusCollection']/row").map do |bonus|
+                { :type => bonus.read_attribute("bonusType").to_s, :value => bonus.read_attribute("bonusValue").to_s }
               end
               
             }
@@ -125,27 +125,27 @@ module Ceres
         }
       end
       
-      return skill_groups, xml.cachedUntil
+      return skill_groups, xml.cached_until
     end
     
     def identifiers_to_names(*identifiers)
-      xml = self.download(Ceres.misc_urls[:identifiers_to_names], ids: identifiers.map { |x| x.to_s }.join(","))
+      xml = self.download(Ceres.misc_urls[:identifiers_to_names], :ids => identifiers.map { |x| x.to_s }.join(","))
       
-      names = xml.readNodes("/eveapi/result/rowset/row").map do |name|
-        { :id => name.readAttribute("characterID").to_i, :name => name.readAttribute("name").to_s }
+      names = xml.read_nodes("/eveapi/result/rowset/row").map do |name|
+        { :id => name.read_attribute("characterID").to_i, :name => name.read_attribute("name").to_s }
       end
       
-      return names, xml.cachedUntil
+      return names, xml.cached_until
     end
     
     def names_to_identifiers(*names)
-      xml = self.download(Ceres.misc_urls[:names_to_identifiers], names: names.map { |x| x.to_s }.join(","))
+      xml = self.download(Ceres.misc_urls[:names_to_identifiers], :names => names.map { |x| x.to_s }.join(","))
       
-      identifiers = xml.readNodes("/eveapi/result/rowset/row").map do |id|
-        { :id => id.readAttribute("characterID").to_i, :name => id.readAttribute("name").to_s }
+      identifiers = xml.read_nodes("/eveapi/result/rowset/row").map do |id|
+        { :id => id.read_attribute("characterID").to_i, :name => id.read_attribute("name").to_s }
       end
       
-      return identifiers, xml.cachedUntil
+      return identifiers, xml.cached_until
     end
   end
 end

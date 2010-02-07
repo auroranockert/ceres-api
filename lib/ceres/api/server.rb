@@ -24,11 +24,11 @@ module Ceres
       xml = self.download(Ceres.server_urls[:status])
       
       status = {
-        :open => (xml.readNode("/eveapi/result/serverOpen").to_s == "True"),
-        :players => xml.readNode("/eveapi/result/onlinePlayers").to_i
+        :open => (xml.read_node("/eveapi/result/serverOpen").to_s == "True"),
+        :players => xml.read_node("/eveapi/result/onlinePlayers").to_i
       }
       
-      return status, xml.cachedUntil      
+      return status, xml.cached_until      
     end
   end
 end

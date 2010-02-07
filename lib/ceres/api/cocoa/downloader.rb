@@ -1,4 +1,4 @@
-#  downloaders.rb
+#  downloader.rb
 #  This file is part of Ceres-API.
 #
 #  Ceres is free software: you can redistribute it and/or modify
@@ -17,36 +17,25 @@
 #  Created by Jens Nockert on 6/2/10.
 #
 
-if Object.name == "NSObject"
-  require 'ceres/api/cocoa/downloader'
-end
-
 module Ceres
   class API
-    module RubyDownloader
+    module CocoaDownloader
       def self.init
-        require 'open-uri'
+
       end
-      
+
       def self.download(url)
-        Ceres::XMLDocument.from_string(open(url).read)
-      end
-    end
-    
-    module LocalDownloader
-      def self.init
-        require 'fileutils'
-        require 'digest/sha1'
-        
-        FileUtils.mkdir_p 'xml'
-      end
-      
-      def self.download(url)
-        File.open('./xml/' + Digest::SHA1.hexdigest(url) + '.xml') do |f|
-          result = Ceres::XMLDocument.from_string(f.read)
+        url, error = NSURL.URLWithString(url), Pointer.new_with_type('@')
+
+        result = NSXMLDocument.alloc.initWithContentsOfURL(url, options: 0, error: error)
+
+        error = error[0]
+
+        if error
+          raise StandardError, "oh dear... (#{error.description})"
+        else
+          Ceres::XMLDocument.from_nsxml(result)
         end
-        
-        result
       end
     end
   end

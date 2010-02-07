@@ -23,16 +23,16 @@ module Ceres
     def characters
       xml = self.download(Ceres.account_urls[:characters])
       
-      characters = xml.readNodes("/eveapi/result/rowset/row").map do |character|
+      characters = xml.read_nodes("/eveapi/result/rowset/row").map do |character|
         {
-          :id => character.readAttribute("characterID").to_i,
-          :name => character.readAttribute("name").to_s,
-          :corporation / :id => character.readAttribute("corporationID").to_i,
-          :corporation / :name => character.readAttribute("corporationName").to_s
+          :id => character.read_attribute("characterID").to_i,
+          :name => character.read_attribute("name").to_s,
+          :corporation / :id => character.read_attribute("corporationID").to_i,
+          :corporation / :name => character.read_attribute("corporationName").to_s
         }
       end
       
-      return characters, xml.cachedUntil
+      return characters, xml.cached_until
     end
   end
 end

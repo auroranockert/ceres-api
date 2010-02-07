@@ -23,62 +23,62 @@ module Ceres
     def conquerable_stations
       xml = self.download(Ceres.map_urls[:conquerable_stations])
       
-      stations = xml.readNodes("/eveapi/result/rowset/row").map do |station|
+      stations = xml.read_nodes("/eveapi/result/rowset/row").map do |station|
         {
-          :id => station.readAttribute("stationID").to_i,
-          :type_id => station.readAttribute("stationTypeID").to_i,
-          :name => station.readAttribute("stationName").to_s,
-          :solar_system_id => station.readAttribute("solarSystemID").to_i,
-          :corporation / :id => station.readAttribute("corporationID").to_i,
-          :corporation / :name => station.readAttribute("corporationName").to_s
+          :id => station.read_attribute("stationID").to_i,
+          :type_id => station.read_attribute("stationTypeID").to_i,
+          :name => station.read_attribute("stationName").to_s,
+          :solar_system_id => station.read_attribute("solarSystemID").to_i,
+          :corporation / :id => station.read_attribute("corporationID").to_i,
+          :corporation / :name => station.read_attribute("corporationName").to_s
         }
       end
       
-      return stations, xml.cachedUntil
+      return stations, xml.cached_until
     end
     
     def jumps
       xml = self.download(Ceres.map_urls[:jumps])
       
-      systems = xml.readNodes("/eveapi/result/rowset/row").map do |system|
+      systems = xml.read_nodes("/eveapi/result/rowset/row").map do |system|
         {
-          :id => system.readAttribute("solarSystemID").to_i,
-          :jumps => system.readAttribute("shipJumps").to_i
+          :id => system.read_attribute("solarSystemID").to_i,
+          :jumps => system.read_attribute("shipJumps").to_i
         }
       end
       
-      return systems, xml.cachedUntil
+      return systems, xml.cached_until
     end
     
     def kills
       xml = self.download(Ceres.map_urls[:kills])
       
-      systems = xml.readNodes("/eveapi/result/rowset/row").map do |system|
+      systems = xml.read_nodes("/eveapi/result/rowset/row").map do |system|
         {
-          :id => system.readAttribute("solarSystemID").to_i,
-          :kills / :ship => system.readAttribute("shipKills").to_i,
-          :kills / :faction => system.readAttribute("factionKills").to_i,
-          :kills / :pod => system.readAttribute("podKills").to_i
+          :id => system.read_attribute("solarSystemID").to_i,
+          :kills / :ship => system.read_attribute("shipKills").to_i,
+          :kills / :faction => system.read_attribute("factionKills").to_i,
+          :kills / :pod => system.read_attribute("podKills").to_i
         }
       end
       
-      return systems, xml.cachedUntil
+      return systems, xml.cached_until
     end
 
     def sovereignty
       xml = self.download(Ceres.map_urls[:sovereignty])
       
-      systems = xml.readNodes("/eveapi/result/rowset/row").map do |system|
+      systems = xml.read_nodes("/eveapi/result/rowset/row").map do |system|
         {
-          :id => system.readAttribute("solarSystemID").to_i,
-          :name => system.readAttribute("solarSystemName").to_s,
-          :corporation_id => system.readAttribute("corporationID").to_i,
-          :alliance_id => system.readAttribute("allianceID").to_i,
-          :faction_id => system.readAttribute("factionID").to_i
+          :id => system.read_attribute("solarSystemID").to_i,
+          :name => system.read_attribute("solarSystemName").to_s,
+          :corporation_id => system.read_attribute("corporationID").to_i,
+          :alliance_id => system.read_attribute("allianceID").to_i,
+          :faction_id => system.read_attribute("factionID").to_i
         }
       end
 
-      return systems, xml.cachedUntil
+      return systems, xml.cached_until
     end
   end
 end

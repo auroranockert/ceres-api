@@ -23,27 +23,27 @@ module Ceres
     def corporation_assets
       xml = self.download(Ceres.corporation_urls[:assets])
       
-      assets = xml.readNodes("/eveapi/result/rowset/row").map do |asset|
+      assets = xml.read_nodes("/eveapi/result/rowset/row").map do |asset|
         {
-          :id => asset.readAttribute("itemID").to_i,
-          :location_id => asset.readAttribute("locationID").to_i,
-          :type_id => asset.readAttribute("typeID").to_i,
-          :quantity => asset.readAttribute("quantity").to_i,
-          :flags => asset.readAttribute("flag").to_i,
-          :singleton => (asset.readAttribute("singleton").to_i == 1),
-          :contents => asset.readNodes("rowset/row").map do |item|
+          :id => asset.read_attribute("itemID").to_i,
+          :location_id => asset.read_attribute("locationID").to_i,
+          :type_id => asset.read_attribute("typeID").to_i,
+          :quantity => asset.read_attribute("quantity").to_i,
+          :flags => asset.read_attribute("flag").to_i,
+          :singleton => (asset.read_attribute("singleton").to_i == 1),
+          :contents => asset.read_nodes("rowset/row").map do |item|
             {
-              :id => item.readAttribute("itemID").to_i,
-              :type_id => item.readAttribute("typeID").to_i,
-              :quantity => item.readAttribute("quantity").to_i,
-              :flags => item.readAttribute("flag").to_i,
-              :singleton => (item.readAttribute("singleton").to_i == 1),
+              :id => item.read_attribute("itemID").to_i,
+              :type_id => item.read_attribute("typeID").to_i,
+              :quantity => item.read_attribute("quantity").to_i,
+              :flags => item.read_attribute("flag").to_i,
+              :singleton => (item.read_attribute("singleton").to_i == 1),
             }
           end
         }
       end
       
-      return assets, xml.cachedUntil
+      return assets, xml.cached_until
     end
   end
 end
