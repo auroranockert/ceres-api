@@ -18,7 +18,36 @@
 #  Created by Jens Nockert on 11/4/09.
 #
 
-# assets:                         "#{@base_url}/corp/AssetList.xml.aspx",
+module Ceres
+  class API
+    def corporation_assets
+      xml = self.download(Ceres.corporation_urls[:assets])
+      
+      assets = xml.readNodes("/eveapi/result/rowset/row").map do |asset|
+        {
+          :id => asset.readAttribute("itemID").integerValue,
+          :location_id => asset.readAttribute("locationID").integerValue,
+          :type_id => asset.readAttribute("typeID").integerValue,
+          :quantity => asset.readAttribute("quantity").integerValue,
+          :flags => asset.readAttribute("flag").integerValue,
+          :singleton => (asset.readAttribute("singleton").integerValue == 1),
+          :contents => asset.readNodes("rowset/row").map do |item|
+            {
+              :id => item.readAttribute("itemID").integerValue,
+              :type_id => item.readAttribute("typeID").integerValue,
+              :quantity => item.readAttribute("quantity").integerValue,
+              :flags => item.readAttribute("flag").integerValue,
+              :singleton => (item.readAttribute("singleton").integerValue == 1),
+            }
+          end
+        }
+      end
+      
+      return assets, xml.cachedUntil
+    end
+  end
+end
+
 # market_orders:                  "#{@base_url}/corp/MarketOrders.xml.aspx",
 # industry_jobs:                  "#{@base_url}/corp/IndustryJobs.xml.aspx",
 # kills:                          "#{@base_url}/corp/KillLog.xml.aspx",

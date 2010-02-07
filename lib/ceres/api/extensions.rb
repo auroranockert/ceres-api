@@ -18,20 +18,6 @@
 #  Created by Jens Nockert on 11/4/09.
 #
 
-class NSMutableString
-  def url_escape
-    self.gsub(/([^ a-zA-Z0-9_.-]+)/n) do
-      '%' + $1.unpack('H2' * $1.size).join('%').upcase
-    end.tr(' ', '+')
-  end
-
-  def url_unescape
-    self.tr('+', ' ').gsub(/((?:%[0-9a-fA-F]{2})+)/n) do
-      [$1.delete('%')].pack('H*')
-    end
-  end
-end
-
 class NSXMLDocument
   def readNodes(xpath)
     error = Pointer.new_with_type('@')
@@ -54,7 +40,7 @@ class NSXMLDocument
     currentTime = self.readNode("/eveapi/currentTime").dateValue
     cachedUntil = self.readNode("/eveapi/cachedUntil").dateValue
 
-    NSDate.alloc.initWithTimeIntervalSinceNow(cachedUntil.timeIntervalSinceDate(currentTime))
+    Time.now + (cachedUntil - currentTime)
   end
 
   def checkForErrors
@@ -137,6 +123,6 @@ class NSXMLNode
   end
   
   def dateValue
-    NSDate.alloc.initWithString(self.stringValue + " +0000")
+    Time.at(NSDate.alloc.initWithString(self.stringValue + " +0000").timeIntervalSince1970) # TODO: Get Time.parse to work in MacRuby
   end
 end

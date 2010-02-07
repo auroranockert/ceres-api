@@ -20,21 +20,34 @@
 
 framework 'cocoa'
 
+require 'cgi'
+
 require 'ceres/support'
 
 require 'ceres/api/exceptions'
 require 'ceres/api/extensions'
 require 'ceres/api/urls'
 
+require 'digest/sha1'
+
 module Ceres
-  class API    
+  class API
+    def self.downloader=(downloader = :remote)
+      downloader.init
+      @downloader = downloader
+    end
+    
+    def self.downloader
+      @downloader ||= CocoaDownloader
+    end
+    
     def initialize(settings = {})
       @settings = settings
     end
     
     def download(url, settings = {})
       url = url.to_s
-      
+    
       attributes = @settings.merge(settings).map do |key, value|
         key = case key
         when :user_id
@@ -46,27 +59,81 @@ module Ceres
         else
           key
         end
-        
-        "#{key.to_s}=#{value.to_s.url_escape}"
-      end.join("&")
       
+        "#{key.to_s}=#{CGI.escape(value.to_s)}"
+      end.join("&")
+    
       if attributes != ""
         url += "?#{attributes}"
       end
       
-      url, error = NSURL.URLWithString(url), Pointer.new_with_type('@')
-
-      result = NSXMLDocument.alloc.initWithContentsOfURL(url, options: 0, error: error)
-
-      error = error[0]
-
-      if error
-        raise StandardError, "oh dear... (#{error.description})"
-      else
-        result.checkForErrors
-        result
+      Ceres::API.downloader.download(url)
+    end
+    
+    module RubyDownloader
+      def self.init
+        require 'open-uri'
       end
-    end    
+      
+      def self.download(url)
+        error = Pointer.new_with_type('@')
+
+        result = NSXMLDocument.alloc.initWithXMLString(open(url).read, options: 0, error: error)
+
+        error = error[0]
+
+        if error
+          raise StandardError, "oh dear... (#{error.description})"
+        else
+          result.checkForErrors
+          result
+        end
+      end
+    end
+    
+    module CocoaDownloader
+      def self.init
+        
+      end
+      
+      def self.download(url)
+        url, error = NSURL.URLWithString(url), Pointer.new_with_type('@')
+
+        result = NSXMLDocument.alloc.initWithContentsOfURL(url, options: 0, error: error)
+
+        error = error[0]
+
+        if error
+          raise StandardError, "oh dear... (#{error.description})"
+        else
+          result.checkForErrors
+          result
+        end
+      end
+    end
+    
+    module LocalDownloader
+      def self.init
+        require 'fileutils'
+        
+        FileUtils.mkdir_p 'xml'
+      end
+      
+      def self.download(url)
+        url, error = NSURL.fileURLWithPath('./xml/' + Digest::SHA1.hexdigest(url) + '.xml'), Pointer.new_with_type('@')
+        
+        result = NSXMLDocument.alloc.initWithContentsOfURL(url, options: 0, error: error)
+
+        error = error[0]
+        
+        if error
+          raise StandardError, "oh dear... (#{error.description})"
+        else
+          result.checkForErrors
+          result
+        end
+      end
+    end
   end
 end
 

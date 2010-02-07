@@ -39,7 +39,7 @@ module Ceres
     end
     
     def starbase(identifier)
-      xml = self.download(Ceres.misc_urls[:identifiers_to_names], itemID: identifier.to_s)
+      xml = self.download(Ceres.starbase_urls[:details], itemID: identifier.to_s)
       
       starbase = {        
         :state => [:unanchored, :anchored, :onlining, :reinforced, :online][xml.readNode("/eveapi/result/state").integerValue],
@@ -61,7 +61,7 @@ module Ceres
       starbase[:settings / :combat / :shoots_on] << :low_status if xml.readNode("/eveapi/result/combatSettings/onStatusDrop").readAttribute("enabled").integerValue == 1
       starbase[:settings / :combat / :shoots_on] << :war_target if xml.readNode("/eveapi/result/combatSettings/onCorporationWar").readAttribute("enabled").integerValue == 1
       
-      xml.readNode("/eveapi/result/rowset/row").each do |fuel|
+      xml.readNodes("/eveapi/result/rowset/row").each do |fuel|
         starbase[:fuel][fuel.readAttribute("typeID").integerValue] = fuel.readAttribute("quantity").integerValue
       end
       

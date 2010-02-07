@@ -129,7 +129,7 @@ module Ceres
     end
     
     def identifiers_to_names(*identifiers)
-      xml = self.download(Ceres.misc_urls[:identifiers_to_names], ids: identifiers.map { |x| x.to_s.url_escape }.join(","))
+      xml = self.download(Ceres.misc_urls[:identifiers_to_names], ids: identifiers.map { |x| x.to_s }.join(","))
       
       names = xml.readNodes("/eveapi/result/rowset/row").map do |name|
         { :id => name.readAttribute("characterID").integerValue, :name => name.readAttribute("name").stringValue }
@@ -139,7 +139,7 @@ module Ceres
     end
     
     def names_to_identifiers(*names)
-      xml = self.download(Ceres.misc_urls[:names_to_identifiers], names: names.map { |x| x.to_s.url_escape }.join(","))
+      xml = self.download(Ceres.misc_urls[:names_to_identifiers], names: names.map { |x| x.to_s }.join(","))
       
       identifiers = xml.readNodes("/eveapi/result/rowset/row").map do |id|
         { :id => id.readAttribute("characterID").integerValue, :name => id.readAttribute("name").stringValue }
