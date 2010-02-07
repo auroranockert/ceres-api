@@ -64,8 +64,8 @@ module Ceres
           :type_id => order.read_attribute("typeID").to_i,
           :range => parse_range(order.read_attribute("range").to_i),
           :duration => order.read_attribute("duration").to_i,
-          :escrow => order.read_attribute("escrow").floatValue,
-          :price => order.read_attribute("price").floatValue,
+          :escrow => order.read_attribute("escrow").to_f,
+          :price => order.read_attribute("price").to_f,
           :type => [:sell, :buy][order.read_attribute("bid").to_i],
           :issued_at => order.read_attribute("issued").to_date
         }
@@ -98,10 +98,10 @@ module Ceres
           :output / :location_id => job.read_attribute("outputLocationID").to_i,
           :output / :flags => job.read_attribute("outputFlag").to_i,
           :runs => job.read_attribute("runs").to_i,
-          :material / :multiplier => job.read_attribute("materialMultiplier").floatValue,
-          :material / :character_multiplier => job.read_attribute("charMaterialMultiplier").floatValue,
-          :time / :multiplier => job.read_attribute("timeMultiplier").floatValue,
-          :time / :character_multiplier => job.read_attribute("charTimeMultiplier").floatValue,
+          :material / :multiplier => job.read_attribute("materialMultiplier").to_f,
+          :material / :character_multiplier => job.read_attribute("charMaterialMultiplier").to_f,
+          :time / :multiplier => job.read_attribute("timeMultiplier").to_f,
+          :time / :character_multiplier => job.read_attribute("charTimeMultiplier").to_f,
           :completed => (job.read_attribute("completed").to_i == 1),
           :completed_successfully => (job.read_attribute("completedSuccessfully").to_i == 1),
           :completed_status => [:failed, :delivered, :aborted, :gm_intervention, :unanchored, :destroyed][job.read_attribute("completedStatus").to_i],
@@ -119,7 +119,7 @@ module Ceres
     def character_balance
       xml = self.download(Ceres.character_urls[:wallet_balance])
       
-      return xml.read_node("/eveapi/result/rowset/row").read_attribute("balance").floatValue, xml.cached_until
+      return xml.read_node("/eveapi/result/rowset/row").read_attribute("balance").to_f, xml.cached_until
     end
     
     def character_transactions(before_transaction_id = nil)
@@ -137,7 +137,7 @@ module Ceres
           
           :item / :type_id => transaction.read_attribute("typeID").to_i,
           :item / :type_name => transaction.read_attribute("typeName").to_s,
-          :price => transaction.read_attribute("price").floatValue,
+          :price => transaction.read_attribute("price").to_f,
           :client / :id => transaction.read_attribute("clientID").to_i,
           :client / :name => transaction.read_attribute("clientName").to_s,
           :station / :id => transaction.read_attribute("stationID").to_i,
@@ -169,8 +169,8 @@ module Ceres
           :second / :name => entry.read_attribute("ownerName2").to_s,
           :argument / :id => entry.read_attribute("argID1").to_i,
           :argument / :name => entry.read_attribute("argName1").to_s,
-          :amount => entry.read_attribute("amount").floatValue,
-          :balance => entry.read_attribute("balance").floatValue,
+          :amount => entry.read_attribute("amount").to_f,
+          :balance => entry.read_attribute("balance").to_f,
           :reason => entry.read_attribute("reason").to_s
         }
       end

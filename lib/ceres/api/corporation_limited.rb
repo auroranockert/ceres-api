@@ -35,7 +35,7 @@ module Ceres
         :url => xml.read_node("/eveapi/result/url").to_s,
         :alliance / :id => xml.read_node("/eveapi/result/allianceID").to_i,
         :alliance / :name => xml.read_node("/eveapi/result/allianceName").to_s,
-        :tax => xml.read_node("/eveapi/result/taxRate").floatValue,
+        :tax => xml.read_node("/eveapi/result/taxRate").to_f,
         :member_count => xml.read_node("/eveapi/result/memberCount").to_i,
         :shares => xml.read_node("/eveapi/result/shares").to_i,
         

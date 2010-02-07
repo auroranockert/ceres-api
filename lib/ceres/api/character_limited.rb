@@ -31,7 +31,7 @@ module Ceres
         :gender => xml.read_node("/eveapi/result/gender").to_s,
         :clone / :name => xml.read_node("/eveapi/result/cloneName").to_s,
         :clone / :skillpoints => xml.read_node("/eveapi/result/cloneSkillPoints").to_i,
-        :balance => xml.read_node("/eveapi/result/balance").floatValue,
+        :balance => xml.read_node("/eveapi/result/balance").to_f,
         
         :attributes / :intelligence => xml.read_node("/eveapi/result/attributes/intelligence").to_i,
         :attributes / :memory => xml.read_node("/eveapi/result/attributes/memory").to_i,
@@ -207,7 +207,7 @@ module Ceres
             {
               :id => other.read_attribute("toID").to_i,
               :name => other.read_attribute("toName").to_s,
-              :standings => other.read_attribute("standing").floatValue
+              :standings => other.read_attribute("standing").to_f
             }
           end,
           
@@ -215,7 +215,7 @@ module Ceres
             {
               :id => other.read_attribute("toID").to_i,
               :name => other.read_attribute("toName").to_s,
-              :standings => other.read_attribute("standing").floatValue
+              :standings => other.read_attribute("standing").to_f
             }
           end
         },
@@ -225,7 +225,7 @@ module Ceres
             {
               :id => other.read_attribute("fromID").to_i,
               :name => other.read_attribute("fromName").to_s,
-              :standings => other.read_attribute("standing").floatValue
+              :standings => other.read_attribute("standing").to_f
             }
           end,
           
@@ -233,7 +233,7 @@ module Ceres
             {
               :id => other.read_attribute("fromID").to_i,
               :name => other.read_attribute("fromName").to_s,
-              :standings => other.read_attribute("standing").floatValue
+              :standings => other.read_attribute("standing").to_f
             }
           end,
           
@@ -241,7 +241,7 @@ module Ceres
             {
               :id => other.read_attribute("fromID").to_i,
               :name => other.read_attribute("fromName").to_s,
-              :standings => other.read_attribute("standing").floatValue
+              :standings => other.read_attribute("standing").to_f
             }
           end
         }
