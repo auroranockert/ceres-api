@@ -19,23 +19,66 @@
 
 if Object.name == "NSObject"
   require 'ceres/api/cocoa/xml'
+else
+  require 'ceres/api/ruby/xml'
 end
 
 module Ceres
-  module XMLDocument
-    def self.from_string(xml)
-      if Object.name == "NSObject"
-        CocoaXMLDocument.from_string(xml)
-      else
-        raise Exception, "Can only run Ceres under MacRuby."
+  module API
+    module XMLHelper
+      def self.cached_until
+        current_time = self.read_node("/eveapi/currentTime").to_date
+        cached_until = self.read_node("/eveapi/cachedUntil").to_date
+
+        Time.now + (cached_until - current_time)
       end
-    end
-    
-    def self.from_nsxml(xml)
-      if Object.name == "NSObject"
-        CocoaXMLDocument.from_nsxml(xml)
-      else
-        raise Exception, "Can only run Ceres under MacRuby."
+
+      def self.errors
+        error = self.read_node("/eveapi/error")
+
+        if error
+          code = error.read_attribute("code").to_i
+          message = "EVE API Error (##{code.to_s}): #{error.to_s}"
+
+          case code
+          when 100
+            raise Ceres::WalletNotPreviouslyLoadedError, message
+          when 101, 103
+            raise Ceres::WalletExhaustedError, message
+          when 102
+            raise Ceres::WalletPreviouslyLoadedError, message
+          when 105 .. 111, 114, 121 .. 123
+            raise Ceres::InvalidIdentifierError, message
+          when 112, 113
+            raise Ceres::VersionError, message
+          when 115 .. 117
+            raise Ceres::AlreadyDownloadedError, message
+          when 118
+            raise Ceres::KillsNotPreviouslyLoadedError, message
+          when 119
+            raise Ceres::KillsExhaustedError, message
+          when 120
+            raise Ceres::KillsPreviouslyLoadedError, message
+          when 124, 125
+            raise Ceres::NotEnlistedInFactionalWarfareError, message
+          when 200, 206, 208, 209, 213
+            raise Ceres::AuthorizationError, message
+          when 201 .. 205, 210 .. 212
+            raise Ceres::AuthenticationError, message
+          when 207, 214
+            raise Ceres::AllianceOrCorporationError, message
+          when 500 .. 525
+            raise Ceres::ServerError, message
+          when 901, 902
+            raise Ceres::APITemporarilyDisabledError, message
+          when 903
+            raise Ceres::RateLimitedError, message
+          else
+            raise Exception, "Oh dear, unidentified flying exception (UFE) detected, call SETI quick!"
+          end
+        else
+          nil
+        end
       end
     end
   end

@@ -19,51 +19,30 @@
 
 module Ceres
   module API
-    class CocoaXMLDocument < CocoaXMLNode
+    class NokogiriXMLDocument < NokogiriXMLNode
       include Ceres::API::XMLHelper
       
       def self.from_nsxml(xml)
-        result = CocoaXMLDocument.new(result)
-        result.errors
-        result
+        raise "Nokogiri can not use NSXMLDocuments, sorry."
       end
   
       def self.from_string(xml)
-        error = Pointer.new_with_type('@')
-
-        result = NSXMLDocument.alloc.initWithXMLString(xml, options: 0, error: error)
-
-        error = error[0]
-
-        if error
-          raise StandardError, "oh dear... (#{error.description})"
-        else
-          result = CocoaXMLDocument.new(result)
-          result.errors
-          result
-        end
+        @xml = Nokogiri::XML.parse(xml)
       end
       
       def self.init
+        require 'nokogiri'
       end
     end
 
-    class CocoaXMLNode
+    class NokogiriXMLNode
       def initialize(xml)
         @xml = xml
       end
-  
+
       def read_nodes(xpath)
-        error = Pointer.new_with_type('@')
-        result = @xml.nodesForXPath(xpath, error: error)
-
-        error = error[0]
-
-        if error
-          raise StandardError, "oh dear... (#{error.description})"
-        else
-          result.map { |x| CocoaXMLNode.new(x) }
-        end
+        result = @xml.xpath(xpath)
+        result.map { |x| NokogiriXMLNode.new(x) }
       end
 
       def read_node(xpath)
@@ -73,9 +52,9 @@ module Ceres
       def read_attribute(attribute)
         self.read_node("@#{attribute}")
       end
-  
+
       def to_s
-        @xml.stringValue
+        @xml.content
       end
 
       def to_i

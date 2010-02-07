@@ -21,33 +21,4 @@ if Object.name == "NSObject"
   require 'ceres/api/cocoa/downloader'
 end
 
-module Ceres
-  class API
-    module RubyDownloader
-      def self.init
-        require 'open-uri'
-      end
-      
-      def self.download(url)
-        Ceres::XMLDocument.from_string(open(url).read)
-      end
-    end
-    
-    module LocalDownloader
-      def self.init
-        require 'fileutils'
-        require 'digest/sha1'
-        
-        FileUtils.mkdir_p 'xml'
-      end
-      
-      def self.download(url)
-        File.open('./xml/' + Digest::SHA1.hexdigest(url) + '.xml') do |f|
-          result = Ceres::XMLDocument.from_string(f.read)
-        end
-        
-        result
-      end
-    end
-  end
-end
+require 'ceres/api/ruby/downloader'

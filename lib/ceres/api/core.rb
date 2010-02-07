@@ -18,9 +18,12 @@
 #  Created by Jens Nockert on 11/4/09.
 #
 
-framework 'cocoa'
+if Object.name == "NSObject"
+  framework 'cocoa'
+end
 
 require 'cgi'
+require 'time'
 
 require 'ceres/support'
 
@@ -39,7 +42,16 @@ module Ceres
     end
     
     def self.downloader
-      @downloader ||= CocoaDownloader
+      @downloader ||= (Object.name == "NSObject" ? (CocoaDownloader.init; CocoaDownloader) : (RubyDownloader.init; RubyDownloader))
+    end
+    
+    def self.xml_parser=(parser)
+      parser.init
+      @parser = parser
+    end
+    
+    def self.parser
+      @parser ||= (Object.name == "NSObject" ? (CocoaXMLDocument.init; CocoaDownloader) : (NokogiriXMLDocument.init; NokogiriXMLDocument))
     end
     
     def initialize(settings = {})
