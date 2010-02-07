@@ -28,19 +28,19 @@ module Ceres
       
       assets = xml.readNodes("/eveapi/result/rowset/row").map do |asset|
         {
-          :id => asset.readAttribute("itemID").integerValue,
-          :location_id => asset.readAttribute("locationID").integerValue,
-          :type_id => asset.readAttribute("typeID").integerValue,
-          :quantity => asset.readAttribute("quantity").integerValue,
-          :flags => asset.readAttribute("flag").integerValue,
-          :singleton => (asset.readAttribute("singleton").integerValue == 1),
+          :id => asset.readAttribute("itemID").to_i,
+          :location_id => asset.readAttribute("locationID").to_i,
+          :type_id => asset.readAttribute("typeID").to_i,
+          :quantity => asset.readAttribute("quantity").to_i,
+          :flags => asset.readAttribute("flag").to_i,
+          :singleton => (asset.readAttribute("singleton").to_i == 1),
           :contents => asset.readNodes("rowset/row").map do |item|
             {
-              :id => item.readAttribute("itemID").integerValue,
-              :type_id => item.readAttribute("typeID").integerValue,
-              :quantity => item.readAttribute("quantity").integerValue,
-              :flags => item.readAttribute("flag").integerValue,
-              :singleton => (item.readAttribute("singleton").integerValue == 1),
+              :id => item.readAttribute("itemID").to_i,
+              :type_id => item.readAttribute("typeID").to_i,
+              :quantity => item.readAttribute("quantity").to_i,
+              :flags => item.readAttribute("flag").to_i,
+              :singleton => (item.readAttribute("singleton").to_i == 1),
             }
           end
         }
@@ -54,20 +54,20 @@ module Ceres
       
       orders = xml.readNodes("/eveapi/result/rowset/row").map do |order|
         {
-          :id => order.readAttribute("orderID").integerValue,
-          :character_id => order.readAttribute("charID").integerValue,
-          :station_id => order.readAttribute("stationID").integerValue,
-          :volume / :original => order.readAttribute("volEntered").integerValue,
-          :volume / :remaining => order.readAttribute("volRemaining").integerValue,
-          :volume / :minimum => order.readAttribute("minVolume").integerValue,
-          :state => [:active, :closed, :expired, :cancelled, :pending, :character_deleted][order.readAttribute("orderState").integerValue],
-          :type_id => order.readAttribute("typeID").integerValue,
-          :range => parse_range(order.readAttribute("range").integerValue),
-          :duration => order.readAttribute("duration").integerValue,
+          :id => order.readAttribute("orderID").to_i,
+          :character_id => order.readAttribute("charID").to_i,
+          :station_id => order.readAttribute("stationID").to_i,
+          :volume / :original => order.readAttribute("volEntered").to_i,
+          :volume / :remaining => order.readAttribute("volRemaining").to_i,
+          :volume / :minimum => order.readAttribute("minVolume").to_i,
+          :state => [:active, :closed, :expired, :cancelled, :pending, :character_deleted][order.readAttribute("orderState").to_i],
+          :type_id => order.readAttribute("typeID").to_i,
+          :range => parse_range(order.readAttribute("range").to_i),
+          :duration => order.readAttribute("duration").to_i,
           :escrow => order.readAttribute("escrow").floatValue,
           :price => order.readAttribute("price").floatValue,
-          :type => [:sell, :buy][order.readAttribute("bid").integerValue],
-          :issued_at => order.readAttribute("issued").dateValue
+          :type => [:sell, :buy][order.readAttribute("bid").to_i],
+          :issued_at => order.readAttribute("issued").to_date
         }
       end
       
@@ -79,37 +79,37 @@ module Ceres
       
       jobs = xml.readNodes("/eveapi/result/rowset/row").map do |job|
         {
-          :id => job.readAttribute("jobID").integerValue,
-          :character_id => job.readAttribute("installerID").integerValue,
-          :assembly_line_id => job.readAttribute("assemblyLineID").integerValue,
-          :container / :id => job.readAttribute("containerID").integerValue,
-          :container / :type_id => job.readAttribute("containerLocationID").integerValue,
-          :container / :location_id => job.readAttribute("containerTypeID").integerValue,
-          :installed_item / :id => job.readAttribute("installedItemID").integerValue,
-          :installed_item / :type_id => job.readAttribute("installedItemTypeID").integerValue,
-          :installed_item / :location_id => job.readAttribute("installedItemLocationID").integerValue,
-          :installed_item / :quantity => job.readAttribute("installedItemQuantity").integerValue,
-          :installed_item / :productivity_level => job.readAttribute("installedItemProductivityLevel").integerValue,
-          :installed_item / :material_level => job.readAttribute("installedItemMaterialLevel").integerValue,
-          :installed_item / :runs_remaining => job.readAttribute("installedItemLicensedProductionRunsRemaining").integerValue,
+          :id => job.readAttribute("jobID").to_i,
+          :character_id => job.readAttribute("installerID").to_i,
+          :assembly_line_id => job.readAttribute("assemblyLineID").to_i,
+          :container / :id => job.readAttribute("containerID").to_i,
+          :container / :type_id => job.readAttribute("containerLocationID").to_i,
+          :container / :location_id => job.readAttribute("containerTypeID").to_i,
+          :installed_item / :id => job.readAttribute("installedItemID").to_i,
+          :installed_item / :type_id => job.readAttribute("installedItemTypeID").to_i,
+          :installed_item / :location_id => job.readAttribute("installedItemLocationID").to_i,
+          :installed_item / :quantity => job.readAttribute("installedItemQuantity").to_i,
+          :installed_item / :productivity_level => job.readAttribute("installedItemProductivityLevel").to_i,
+          :installed_item / :material_level => job.readAttribute("installedItemMaterialLevel").to_i,
+          :installed_item / :runs_remaining => job.readAttribute("installedItemLicensedProductionRunsRemaining").to_i,
           :installed_item / :copy => (job.readAttribute("installedItemCopy") == 1),
-          :installed_item / :flags => job.readAttribute("installedItemFlag").integerValue,
-          :output / :type_id => job.readAttribute("outputTypeID").integerValue,
-          :output / :location_id => job.readAttribute("outputLocationID").integerValue,
-          :output / :flags => job.readAttribute("outputFlag").integerValue,
-          :runs => job.readAttribute("runs").integerValue,
+          :installed_item / :flags => job.readAttribute("installedItemFlag").to_i,
+          :output / :type_id => job.readAttribute("outputTypeID").to_i,
+          :output / :location_id => job.readAttribute("outputLocationID").to_i,
+          :output / :flags => job.readAttribute("outputFlag").to_i,
+          :runs => job.readAttribute("runs").to_i,
           :material / :multiplier => job.readAttribute("materialMultiplier").floatValue,
           :material / :character_multiplier => job.readAttribute("charMaterialMultiplier").floatValue,
           :time / :multiplier => job.readAttribute("timeMultiplier").floatValue,
           :time / :character_multiplier => job.readAttribute("charTimeMultiplier").floatValue,
-          :completed => (job.readAttribute("completed").integerValue == 1),
-          :completed_successfully => (job.readAttribute("completedSuccessfully").integerValue == 1),
-          :completed_status => [:failed, :delivered, :aborted, :gm_intervention, :unanchored, :destroyed][job.readAttribute("completedStatus").integerValue],
-          :activity_id => job.readAttribute("activityID").integerValue,
-          :installed_at => job.readAttribute("installTime").dateValue,
-          :began_at => job.readAttribute("beginProductionTime").dateValue,
-          :ended_at => job.readAttribute("endProductionTime").dateValue,
-          :paused_at => job.readAttribute("pauseProductionTime").dateValue
+          :completed => (job.readAttribute("completed").to_i == 1),
+          :completed_successfully => (job.readAttribute("completedSuccessfully").to_i == 1),
+          :completed_status => [:failed, :delivered, :aborted, :gm_intervention, :unanchored, :destroyed][job.readAttribute("completedStatus").to_i],
+          :activity_id => job.readAttribute("activityID").to_i,
+          :installed_at => job.readAttribute("installTime").to_date,
+          :began_at => job.readAttribute("beginProductionTime").to_date,
+          :ended_at => job.readAttribute("endProductionTime").to_date,
+          :paused_at => job.readAttribute("pauseProductionTime").to_date
         }
       end
       
@@ -131,20 +131,20 @@ module Ceres
       
       transactions = xml.readNodes("/eveapi/result/rowset/row").map do |transaction|
         {
-          :id => transaction.readAttribute("transactionID").integerValue,
-          :date => transaction.readAttribute("transactionDateTime").dateValue,
-          :quantity => transaction.readAttribute("quantity").integerValue,
+          :id => transaction.readAttribute("transactionID").to_i,
+          :date => transaction.readAttribute("transactionDateTime").to_date,
+          :quantity => transaction.readAttribute("quantity").to_i,
           
-          :item / :type_id => transaction.readAttribute("typeID").integerValue,
-          :item / :type_name => transaction.readAttribute("typeName").stringValue,
+          :item / :type_id => transaction.readAttribute("typeID").to_i,
+          :item / :type_name => transaction.readAttribute("typeName").to_s,
           :price => transaction.readAttribute("price").floatValue,
-          :client / :id => transaction.readAttribute("clientID").integerValue,
-          :client / :name => transaction.readAttribute("clientName").stringValue,
-          :station / :id => transaction.readAttribute("stationID").integerValue,
-          :station / :name => transaction.readAttribute("stationName").stringValue,
+          :client / :id => transaction.readAttribute("clientID").to_i,
+          :client / :name => transaction.readAttribute("clientName").to_s,
+          :station / :id => transaction.readAttribute("stationID").to_i,
+          :station / :name => transaction.readAttribute("stationName").to_s,
           
-          :type => transaction.readAttribute("transactionType").stringValue.intern,
-          :for => transaction.readAttribute("transactionFor").stringValue.intern
+          :type => transaction.readAttribute("transactionType").to_s.intern,
+          :for => transaction.readAttribute("transactionFor").to_s.intern
         }
       end
       
@@ -160,18 +160,18 @@ module Ceres
       
       entries = xml.readNodes("/eveapi/result/rowset/row").map do |entry|
         {
-          :date => entry.readAttribute("date").dateValue,
-          :ref_id => entry.readAttribute("refID").integerValue,
-          :ref_type_id => entry.readAttribute("refTypeID").integerValue,
-          :first / :id => entry.readAttribute("ownerID1").integerValue,
-          :first / :name => entry.readAttribute("ownerName1").stringValue,
-          :second / :id => entry.readAttribute("ownerID2").integerValue,
-          :second / :name => entry.readAttribute("ownerName2").stringValue,
-          :argument / :id => entry.readAttribute("argID1").integerValue,
-          :argument / :name => entry.readAttribute("argName1").stringValue,
+          :date => entry.readAttribute("date").to_date,
+          :ref_id => entry.readAttribute("refID").to_i,
+          :ref_type_id => entry.readAttribute("refTypeID").to_i,
+          :first / :id => entry.readAttribute("ownerID1").to_i,
+          :first / :name => entry.readAttribute("ownerName1").to_s,
+          :second / :id => entry.readAttribute("ownerID2").to_i,
+          :second / :name => entry.readAttribute("ownerName2").to_s,
+          :argument / :id => entry.readAttribute("argID1").to_i,
+          :argument / :name => entry.readAttribute("argName1").to_s,
           :amount => entry.readAttribute("amount").floatValue,
           :balance => entry.readAttribute("balance").floatValue,
-          :reason => entry.readAttribute("reason").stringValue
+          :reason => entry.readAttribute("reason").to_s
         }
       end
       

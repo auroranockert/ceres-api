@@ -24,46 +24,46 @@ module Ceres
       xml = self.download(Ceres.corporation_urls[:sheet], corporation_id ? { :corporationID => corporation_id } : {})
       
       sheet = {
-        :id => xml.readNode("/eveapi/result/corporationID").integerValue,
-        :name => xml.readNode("/eveapi/result/corporationName").stringValue,
-        :ticker => xml.readNode("/eveapi/result/ticker").stringValue,
-        :ceo / :id => xml.readNode("/eveapi/result/ceoID").integerValue,
-        :ceo / :name => xml.readNode("/eveapi/result/ceoName").stringValue,
-        :station / :id => xml.readNode("/eveapi/result/stationID").integerValue,
-        :station / :name => xml.readNode("/eveapi/result/stationName").stringValue,
-        :description => xml.readNode("/eveapi/result/description").stringValue,
-        :url => xml.readNode("/eveapi/result/url").stringValue,
-        :alliance / :id => xml.readNode("/eveapi/result/allianceID").integerValue,
-        :alliance / :name => xml.readNode("/eveapi/result/allianceName").stringValue,
+        :id => xml.readNode("/eveapi/result/corporationID").to_i,
+        :name => xml.readNode("/eveapi/result/corporationName").to_s,
+        :ticker => xml.readNode("/eveapi/result/ticker").to_s,
+        :ceo / :id => xml.readNode("/eveapi/result/ceoID").to_i,
+        :ceo / :name => xml.readNode("/eveapi/result/ceoName").to_s,
+        :station / :id => xml.readNode("/eveapi/result/stationID").to_i,
+        :station / :name => xml.readNode("/eveapi/result/stationName").to_s,
+        :description => xml.readNode("/eveapi/result/description").to_s,
+        :url => xml.readNode("/eveapi/result/url").to_s,
+        :alliance / :id => xml.readNode("/eveapi/result/allianceID").to_i,
+        :alliance / :name => xml.readNode("/eveapi/result/allianceName").to_s,
         :tax => xml.readNode("/eveapi/result/taxRate").floatValue,
-        :member_count => xml.readNode("/eveapi/result/memberCount").integerValue,
-        :shares => xml.readNode("/eveapi/result/shares").integerValue,
+        :member_count => xml.readNode("/eveapi/result/memberCount").to_i,
+        :shares => xml.readNode("/eveapi/result/shares").to_i,
         
-        :logo / :graphic_id => xml.readNode("/eveapi/result/logo/graphicID").integerValue,
+        :logo / :graphic_id => xml.readNode("/eveapi/result/logo/graphicID").to_i,
         :logo / :shape => [
-          xml.readNode("/eveapi/result/logo/shape1").integerValue,
-          xml.readNode("/eveapi/result/logo/shape2").integerValue,
-          xml.readNode("/eveapi/result/logo/shape3").integerValue
+          xml.readNode("/eveapi/result/logo/shape1").to_i,
+          xml.readNode("/eveapi/result/logo/shape2").to_i,
+          xml.readNode("/eveapi/result/logo/shape3").to_i
         ],
         :logo / :colour => [
-          xml.readNode("/eveapi/result/logo/color1").integerValue,
-          xml.readNode("/eveapi/result/logo/color2").integerValue,
-          xml.readNode("/eveapi/result/logo/color3").integerValue
+          xml.readNode("/eveapi/result/logo/color1").to_i,
+          xml.readNode("/eveapi/result/logo/color2").to_i,
+          xml.readNode("/eveapi/result/logo/color3").to_i
         ]
       }
       
       unless corporation_id
-        sheet[:member_limit] = xml.readNode("/eveapi/result/memberLimit").integerValue
+        sheet[:member_limit] = xml.readNode("/eveapi/result/memberLimit").to_i
         
         divisions = []
         xml.readNodes("/eveapi/result/rowset[@name='divisions']/row").each do |division|
-          divisions[division.readAttribute("accountKey").integerValue % 10] = division.readAttribute("description").stringValue
+          divisions[division.readAttribute("accountKey").to_i % 10] = division.readAttribute("description").to_s
         end
         sheet[:divisions] = divisions
         
         wallet_divisions = []
         xml.readNodes("/eveapi/result/rowset[@name='walletDivisions']/row").each do |division|
-          wallet_divisions[division.readAttribute("accountKey").integerValue % 10] = division.readAttribute("description").stringValue
+          wallet_divisions[division.readAttribute("accountKey").to_i % 10] = division.readAttribute("description").to_s
         end
         sheet[:wallet_divisions] = wallet_divisions
       end
@@ -76,11 +76,11 @@ module Ceres
       
       medals = xml.readNodes("/eveapi/result/rowset/row").map do |medal|
         {
-          :id => medal.readAttribute("medalID").integerValue,
-          :title => medal.readAttribute("title").stringValue,
-          :description => medal.readAttribute("description").stringValue,
-          :creator_id => medal.readAttribute("creatorID").integerValue,
-          :created_at => medal.readAttribute("created").dateValue
+          :id => medal.readAttribute("medalID").to_i,
+          :title => medal.readAttribute("title").to_s,
+          :description => medal.readAttribute("description").to_s,
+          :creator_id => medal.readAttribute("creatorID").to_i,
+          :created_at => medal.readAttribute("created").to_date
         }
       end
       
@@ -92,12 +92,12 @@ module Ceres
       
       medals = xml.readNodes("/eveapi/result/rowset/row").map do |medal|
         {
-          :id => medal.readAttribute("medalID").integerValue,
-          :character_id => medal.readAttribute("characterID").integerValue,
-          :reason => medal.readAttribute("reason").stringValue,
-          :status => medal.readAttribute("status").stringValue,
-          :issuer_id => medal.readAttribute("issuerID").integerValue,
-          :issued_at => medal.readAttribute("issued").dateValue
+          :id => medal.readAttribute("medalID").to_i,
+          :character_id => medal.readAttribute("characterID").to_i,
+          :reason => medal.readAttribute("reason").to_s,
+          :status => medal.readAttribute("status").to_s,
+          :issuer_id => medal.readAttribute("issuerID").to_i,
+          :issued_at => medal.readAttribute("issued").to_date
         }
       end
       

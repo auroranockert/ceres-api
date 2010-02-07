@@ -25,10 +25,10 @@ module Ceres
       
       characters = xml.readNodes("/eveapi/result/rowset/row").map do |character|
         {
-          :id => character.readAttribute("characterID").integerValue,
-          :name => character.readAttribute("name").stringValue,
-          :corporation / :id => character.readAttribute("corporationID").integerValue,
-          :corporation / :name => character.readAttribute("corporationName").stringValue
+          :id => character.readAttribute("characterID").to_i,
+          :name => character.readAttribute("name").to_s,
+          :corporation / :id => character.readAttribute("corporationID").to_i,
+          :corporation / :name => character.readAttribute("corporationName").to_s
         }
       end
       

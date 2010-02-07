@@ -24,6 +24,9 @@ require 'cgi'
 
 require 'ceres/support'
 
+require 'ceres/api/downloaders'
+require 'ceres/api/xml'
+
 require 'ceres/api/exceptions'
 require 'ceres/api/extensions'
 require 'ceres/api/urls'

@@ -25,14 +25,14 @@ module Ceres
       
       alliances = xml.readNodes("/eveapi/result/rowset/row").map do |alliance|
         {
-          :id => alliance.readAttribute("allianceID").integerValue,
-          :name => alliance.readAttribute("name").stringValue,
-          :short_name => alliance.readAttribute("shortName").stringValue,
-          :executor_id => alliance.readAttribute("executorCorpID").integerValue,
-          :member_count => alliance.readAttribute("memberCount").stringValue,
-          :start_date => alliance.readAttribute("name").dateValue,
+          :id => alliance.readAttribute("allianceID").to_i,
+          :name => alliance.readAttribute("name").to_s,
+          :short_name => alliance.readAttribute("shortName").to_s,
+          :executor_id => alliance.readAttribute("executorCorpID").to_i,
+          :member_count => alliance.readAttribute("memberCount").to_s,
+          :start_date => alliance.readAttribute("name").to_date,
           :member_corporations => alliance.readNodes("rowset/row").map do |corporation|
-            { :id => corporation.readAttribute("corporationID").integerValue, :start_date => corporation.readAttribute("startDate").dateValue }
+            { :id => corporation.readAttribute("corporationID").to_i, :start_date => corporation.readAttribute("startDate").to_date }
           end
         }
       end
@@ -45,25 +45,25 @@ module Ceres
       
       categories = xml.readNodes("/eveapi/result/rowset/row").map do |category|
         {
-          :id => category.readAttribute("categoryID").integerValue,
-          :name => category.readAttribute("categoryName").stringValue,
+          :id => category.readAttribute("categoryID").to_i,
+          :name => category.readAttribute("categoryName").to_s,
           :classes => category.readNodes("rowset/row").map do |klass|
             {
-              :id => klass.readAttribute("classID").integerValue,
-              :name => klass.readAttribute("className").stringValue,
+              :id => klass.readAttribute("classID").to_i,
+              :name => klass.readAttribute("className").to_s,
               :certificates => klass.readNodes("rowset/row").map do |certificate|
                 {
-                  :id => certificate.readAttribute("certificateID").integerValue,
-                  :grade => certificate.readAttribute("grade").integerValue,
-                  :corporation_id => certificate.readAttribute("corporationID").integerValue,
-                  :description => certificate.readAttribute("description").stringValue,
+                  :id => certificate.readAttribute("certificateID").to_i,
+                  :grade => certificate.readAttribute("grade").to_i,
+                  :corporation_id => certificate.readAttribute("corporationID").to_i,
+                  :description => certificate.readAttribute("description").to_s,
                   
                   :required_skills => certificate.readNodes("rowset[@name='requiredSkills']/row").map do |required_skill|
-                    { :id => required_skill.readAttribute("typeID").stringValue, :level => required_skill.readAttribute("level").integerValue }
+                    { :id => required_skill.readAttribute("typeID").to_s, :level => required_skill.readAttribute("level").to_i }
                   end,
                   
                   :required_certificates => certificate.readNodes("rowset[@name='requiredCertificates']/row").map do |required_certificate|
-                    { :id => required_certificate.readAttribute("certificateID").stringValue, :grade => required_certificate.readAttribute("grade").integerValue }
+                    { :id => required_certificate.readAttribute("certificateID").to_s, :grade => required_certificate.readAttribute("grade").to_i }
                   end
                 }
               end
@@ -79,7 +79,7 @@ module Ceres
       xml = self.download(Ceres.misc_urls[:errors])
       
       errors = xml.readNodes("/eveapi/result/rowset/row").map do |error|
-        { :id => error.readAttribute("errorCode").integerValue, :text => error.readAttribute("errorText").stringValue }
+        { :id => error.readAttribute("errorCode").to_i, :text => error.readAttribute("errorText").to_s }
       end
       
       return errors, xml.cachedUntil
@@ -89,7 +89,7 @@ module Ceres
       xml = self.download(Ceres.misc_urls[:ref_types])
       
       refs = xml.readNodes("/eveapi/result/rowset/row").map do |ref|
-        { :id => ref.readAttribute("refTypeID").integerValue, :text => ref.readAttribute("refTypeName").stringValue }
+        { :id => ref.readAttribute("refTypeID").to_i, :text => ref.readAttribute("refTypeName").to_s }
       end
       
       return refs, xml.cachedUntil
@@ -100,24 +100,24 @@ module Ceres
       
       skill_groups = xml.readNodes("/eveapi/result/rowset/row").map do |skill_group|
         {
-          :id => skill_group.readAttribute("groupID").integerValue,
-          :name => skill_group.readAttribute("groupName").stringValue,
+          :id => skill_group.readAttribute("groupID").to_i,
+          :name => skill_group.readAttribute("groupName").to_s,
           :skills => skill_group.readNodes("rowset/row").map do |skill|
             {
-              :id => skill.readAttribute("typeID").integerValue,
-              :name => skill.readAttribute("typeName").stringValue,
-              :group_id => skill.readAttribute("groupID").stringValue,
-              :description => skill.readNode("description").stringValue,
-              :rank => skill.readNode("rank").stringValue,
-              :attribute / :primary => skill.readNode("requiredAttributes/primaryAttribute").stringValue,
-              :attribute / :secondary => skill.readNode("requiredAttributes/secondaryAttribute").stringValue,
+              :id => skill.readAttribute("typeID").to_i,
+              :name => skill.readAttribute("typeName").to_s,
+              :group_id => skill.readAttribute("groupID").to_s,
+              :description => skill.readNode("description").to_s,
+              :rank => skill.readNode("rank").to_s,
+              :attribute / :primary => skill.readNode("requiredAttributes/primaryAttribute").to_s,
+              :attribute / :secondary => skill.readNode("requiredAttributes/secondaryAttribute").to_s,
               
               :required_skills => skill.readNodes("rowset[@name='requiredSkills']/row").map do |required_skill|
-                { :id => required_skill.readAttribute("typeID").stringValue, :level => required_skill.readAttribute("skillLevel").integerValue }
+                { :id => required_skill.readAttribute("typeID").to_s, :level => required_skill.readAttribute("skillLevel").to_i }
               end,
               
               :bonuses => skill.readNodes("rowset[@name='skillBonusCollection']/row").map do |bonus|
-                { :type => bonus.readAttribute("bonusType").stringValue, :value => bonus.readAttribute("bonusValue").stringValue }
+                { :type => bonus.readAttribute("bonusType").to_s, :value => bonus.readAttribute("bonusValue").to_s }
               end
               
             }
@@ -132,7 +132,7 @@ module Ceres
       xml = self.download(Ceres.misc_urls[:identifiers_to_names], ids: identifiers.map { |x| x.to_s }.join(","))
       
       names = xml.readNodes("/eveapi/result/rowset/row").map do |name|
-        { :id => name.readAttribute("characterID").integerValue, :name => name.readAttribute("name").stringValue }
+        { :id => name.readAttribute("characterID").to_i, :name => name.readAttribute("name").to_s }
       end
       
       return names, xml.cachedUntil
@@ -142,7 +142,7 @@ module Ceres
       xml = self.download(Ceres.misc_urls[:names_to_identifiers], names: names.map { |x| x.to_s }.join(","))
       
       identifiers = xml.readNodes("/eveapi/result/rowset/row").map do |id|
-        { :id => id.readAttribute("characterID").integerValue, :name => id.readAttribute("name").stringValue }
+        { :id => id.readAttribute("characterID").to_i, :name => id.readAttribute("name").to_s }
       end
       
       return identifiers, xml.cachedUntil

@@ -6,18 +6,7 @@ module Ceres
       end
       
       def self.download(url)
-        error = Pointer.new_with_type('@')
-
-        result = NSXMLDocument.alloc.initWithXMLString(open(url).read, options: 0, error: error)
-
-        error = error[0]
-
-        if error
-          raise StandardError, "oh dear... (#{error.description})"
-        else
-          result.checkForErrors
-          result
-        end
+        Ceres::XMLDocument.from_string(open(url).read)
       end
     end
     

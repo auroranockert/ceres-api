@@ -25,19 +25,19 @@ module Ceres
       
       assets = xml.readNodes("/eveapi/result/rowset/row").map do |asset|
         {
-          :id => asset.readAttribute("itemID").integerValue,
-          :location_id => asset.readAttribute("locationID").integerValue,
-          :type_id => asset.readAttribute("typeID").integerValue,
-          :quantity => asset.readAttribute("quantity").integerValue,
-          :flags => asset.readAttribute("flag").integerValue,
-          :singleton => (asset.readAttribute("singleton").integerValue == 1),
+          :id => asset.readAttribute("itemID").to_i,
+          :location_id => asset.readAttribute("locationID").to_i,
+          :type_id => asset.readAttribute("typeID").to_i,
+          :quantity => asset.readAttribute("quantity").to_i,
+          :flags => asset.readAttribute("flag").to_i,
+          :singleton => (asset.readAttribute("singleton").to_i == 1),
           :contents => asset.readNodes("rowset/row").map do |item|
             {
-              :id => item.readAttribute("itemID").integerValue,
-              :type_id => item.readAttribute("typeID").integerValue,
-              :quantity => item.readAttribute("quantity").integerValue,
-              :flags => item.readAttribute("flag").integerValue,
-              :singleton => (item.readAttribute("singleton").integerValue == 1),
+              :id => item.readAttribute("itemID").to_i,
+              :type_id => item.readAttribute("typeID").to_i,
+              :quantity => item.readAttribute("quantity").to_i,
+              :flags => item.readAttribute("flag").to_i,
+              :singleton => (item.readAttribute("singleton").to_i == 1),
             }
           end
         }

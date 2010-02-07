@@ -25,12 +25,12 @@ module Ceres
       
       stations = xml.readNodes("/eveapi/result/rowset/row").map do |station|
         {
-          :id => station.readAttribute("stationID").integerValue,
-          :type_id => station.readAttribute("stationTypeID").integerValue,
-          :name => station.readAttribute("stationName").stringValue,
-          :solar_system_id => station.readAttribute("solarSystemID").integerValue,
-          :corporation / :id => station.readAttribute("corporationID").integerValue,
-          :corporation / :name => station.readAttribute("corporationName").stringValue
+          :id => station.readAttribute("stationID").to_i,
+          :type_id => station.readAttribute("stationTypeID").to_i,
+          :name => station.readAttribute("stationName").to_s,
+          :solar_system_id => station.readAttribute("solarSystemID").to_i,
+          :corporation / :id => station.readAttribute("corporationID").to_i,
+          :corporation / :name => station.readAttribute("corporationName").to_s
         }
       end
       
@@ -42,8 +42,8 @@ module Ceres
       
       systems = xml.readNodes("/eveapi/result/rowset/row").map do |system|
         {
-          :id => system.readAttribute("solarSystemID").integerValue,
-          :jumps => system.readAttribute("shipJumps").integerValue
+          :id => system.readAttribute("solarSystemID").to_i,
+          :jumps => system.readAttribute("shipJumps").to_i
         }
       end
       
@@ -55,10 +55,10 @@ module Ceres
       
       systems = xml.readNodes("/eveapi/result/rowset/row").map do |system|
         {
-          :id => system.readAttribute("solarSystemID").integerValue,
-          :kills / :ship => system.readAttribute("shipKills").integerValue,
-          :kills / :faction => system.readAttribute("factionKills").integerValue,
-          :kills / :pod => system.readAttribute("podKills").integerValue
+          :id => system.readAttribute("solarSystemID").to_i,
+          :kills / :ship => system.readAttribute("shipKills").to_i,
+          :kills / :faction => system.readAttribute("factionKills").to_i,
+          :kills / :pod => system.readAttribute("podKills").to_i
         }
       end
       
@@ -70,11 +70,11 @@ module Ceres
       
       systems = xml.readNodes("/eveapi/result/rowset/row").map do |system|
         {
-          :id => system.readAttribute("solarSystemID").integerValue,
-          :name => system.readAttribute("solarSystemName").stringValue,
-          :corporation_id => system.readAttribute("corporationID").integerValue,
-          :alliance_id => system.readAttribute("allianceID").integerValue,
-          :faction_id => system.readAttribute("factionID").integerValue
+          :id => system.readAttribute("solarSystemID").to_i,
+          :name => system.readAttribute("solarSystemName").to_s,
+          :corporation_id => system.readAttribute("corporationID").to_i,
+          :alliance_id => system.readAttribute("allianceID").to_i,
+          :faction_id => system.readAttribute("factionID").to_i
         }
       end
 

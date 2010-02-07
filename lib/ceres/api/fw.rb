@@ -24,20 +24,20 @@ module Ceres
       xml = self.download(Ceres.faction_warfare_urls[:statistics])
       
       result = {
-        :totals / :kills / :yesterday => xml.readNode("/eveapi/result/totals/killsYesterday").integerValue,
-        :totals / :kills / :last_week => xml.readNode("/eveapi/result/totals/killsLastWeek").integerValue,
-        :totals / :kills / :total => xml.readNode("/eveapi/result/totals/killsTotal").integerValue,
+        :totals / :kills / :yesterday => xml.readNode("/eveapi/result/totals/killsYesterday").to_i,
+        :totals / :kills / :last_week => xml.readNode("/eveapi/result/totals/killsLastWeek").to_i,
+        :totals / :kills / :total => xml.readNode("/eveapi/result/totals/killsTotal").to_i,
           
-        :totals / :victory_points / :yesterday => xml.readNode("/eveapi/result/totals/victoryPointsYesterday").integerValue,
-        :totals / :victory_points / :last_week => xml.readNode("/eveapi/result/totals/victoryPointsLastWeek").integerValue,
-        :totals / :victory_points / :total => xml.readNode("/eveapi/result/totals/victoryPointsTotal").integerValue,
+        :totals / :victory_points / :yesterday => xml.readNode("/eveapi/result/totals/victoryPointsYesterday").to_i,
+        :totals / :victory_points / :last_week => xml.readNode("/eveapi/result/totals/victoryPointsLastWeek").to_i,
+        :totals / :victory_points / :total => xml.readNode("/eveapi/result/totals/victoryPointsTotal").to_i,
         
         :wars => xml.readNodes("/eveapi/result/rowset[@name='factionWars']/row").map do |war|
           {
-            :id => war.readAttribute("factionID").integerValue,
-            :name => war.readAttribute("factionName").stringValue,
-            :against / :id => war.readAttribute("againstID").integerValue,
-            :against / :name => war.readAttribute("againstName").stringValue
+            :id => war.readAttribute("factionID").to_i,
+            :name => war.readAttribute("factionName").to_s,
+            :against / :id => war.readAttribute("againstID").to_i,
+            :against / :name => war.readAttribute("againstName").to_s
           }
         end
       }
@@ -50,18 +50,18 @@ module Ceres
       ].each do |faction_id, faction_symbol|
         faction = xml.readNode("/eveapi/result/rowset[@name='factions']/row[@factionID='#{faction_id}']")
 
-        hash[faction_symbol / :id] = faction.readAttribute("factionID").integerValue
-        hash[faction_symbol / :name] = faction.readAttribute("factionName").stringValue
-        hash[faction_symbol / :pilots] = faction.readAttribute("pilots").integerValue
-        hash[faction_symbol / :systems_controlled] = faction.readAttribute("systemsControlled").integerValue
+        hash[faction_symbol / :id] = faction.readAttribute("factionID").to_i
+        hash[faction_symbol / :name] = faction.readAttribute("factionName").to_s
+        hash[faction_symbol / :pilots] = faction.readAttribute("pilots").to_i
+        hash[faction_symbol / :systems_controlled] = faction.readAttribute("systemsControlled").to_i
              
-        hash[faction_symbol / :kills / :yesterday] = faction.readAttribute("killsYesterday").integerValue
-        hash[faction_symbol / :kills / :last_week] = faction.readAttribute("killsLastWeek").integerValue
-        hash[faction_symbol / :kills / :total] = faction.readAttribute("killsTotal").integerValue
+        hash[faction_symbol / :kills / :yesterday] = faction.readAttribute("killsYesterday").to_i
+        hash[faction_symbol / :kills / :last_week] = faction.readAttribute("killsLastWeek").to_i
+        hash[faction_symbol / :kills / :total] = faction.readAttribute("killsTotal").to_i
              
-        hash[faction_symbol / :victory_points / :yesterday] = faction.readAttribute("victoryPointsYesterday").integerValue
-        hash[faction_symbol / :victory_points / :last_week] = faction.readAttribute("victoryPointsLastWeek").integerValue
-        hash[faction_symbol / :victory_points / :total] = faction.readAttribute("victoryPointsTotal").integerValue
+        hash[faction_symbol / :victory_points / :yesterday] = faction.readAttribute("victoryPointsYesterday").to_i
+        hash[faction_symbol / :victory_points / :last_week] = faction.readAttribute("victoryPointsLastWeek").to_i
+        hash[faction_symbol / :victory_points / :total] = faction.readAttribute("victoryPointsTotal").to_i
       end
       
       return result, xml.cachedUntil
@@ -73,13 +73,13 @@ module Ceres
       def parse_stats(xml, path, type)
         xml.findNodes(path).map do |character|
           hash = {
-            :id => character.readAttribute("characterID").integerValue,
-            :name => character.readAttribute("characterName").stringValue
+            :id => character.readAttribute("characterID").to_i,
+            :name => character.readAttribute("characterName").to_s
           }
 
           case type
           when :kills
-            hash[:kills] = character.readAttribute("kills").integerValue
+            hash[:kills] = character.readAttribute("kills").to_i
           when :victory_points
             hash[:victory_points] = character.readAttribute("victoryPoints")
           end
@@ -121,12 +121,12 @@ module Ceres
       
       systems = xml.readNodes("/eveapi/result/rowset/row").map do |system|
         {
-          :id => system.readAttribute("solarSystemID").integerValue,
-          :name => system.readAttribute("solarSystemName").stringValue,
-          :contested => (system.readAttribute("contested").stringValue == "True"),
+          :id => system.readAttribute("solarSystemID").to_i,
+          :name => system.readAttribute("solarSystemName").to_s,
+          :contested => (system.readAttribute("contested").to_s == "True"),
           
-          :faction / :id => system.readAttribute("occupyingFactionID").integerValue,
-          :faction / :name => system.readAttribute("occupyingFactionName").stringValue
+          :faction / :id => system.readAttribute("occupyingFactionID").to_i,
+          :faction / :name => system.readAttribute("occupyingFactionName").to_s
         }
       end
       
