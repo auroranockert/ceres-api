@@ -80,6 +80,10 @@ end
 
 if Object.name == "NSObject"
   require 'ceres/api/cocoa/xml'
-else
+end
+
+begin
+  require 'nokogiri'
   require 'ceres/api/ruby/xml'
+rescue
 end

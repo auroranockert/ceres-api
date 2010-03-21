@@ -43,7 +43,7 @@ module Ceres
       
       starbase = {        
         :state => [:unanchored, :anchored, :onlining, :reinforced, :online][xml.read_node("/eveapi/result/state").to_i],
-        :state_changed_at => xml.read_node("/eveapi/result/stateTimestamp").to_date,
+        :state / :changed_at => xml.read_node("/eveapi/result/stateTimestamp").to_date,
         :onlined_at => xml.read_node("/eveapi/result/onlineTimestamp").to_date,
         :settings / :general / :usage => xml.read_node("/eveapi/result/generalSettings/usageFlags").to_i,
         :settings / :general / :deploy => xml.read_node("/eveapi/result/generalSettings/deployFlags").to_i,

@@ -30,7 +30,7 @@ module Ceres
           :short_name => alliance.read_attribute("shortName").to_s,
           :executor_id => alliance.read_attribute("executorCorpID").to_i,
           :member_count => alliance.read_attribute("memberCount").to_s,
-          :start_date => alliance.read_attribute("name").to_date,
+          :start_date => alliance.read_attribute("startDate").to_date,
           :member_corporations => alliance.read_nodes("rowset/row").map do |corporation|
             { :id => corporation.read_attribute("corporationID").to_i, :start_date => corporation.read_attribute("startDate").to_date }
           end
